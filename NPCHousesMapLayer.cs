@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Terraria;
+using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.GameContent;
 using Terraria.GameInput;
@@ -20,7 +21,7 @@ public class NPCHousesMapLayer : ModMapLayer
 	public override void Draw(ref MapOverlayDrawContext context, ref string text)
 	{
 		// find a better condition later
-		if (Main.instance.mouseNPCType == -1) return;
+		if (false && Main.instance.mouseNPCType == -1) return;
 
 		List<int> npcsWithBanners = [];
 		List<int> occupantBanners = [];
@@ -36,7 +37,7 @@ public class NPCHousesMapLayer : ModMapLayer
 		{
 			var npc = Main.npc[npcsWithBanners[i]];
 
-			int npcHomeY = npc.homeTileY - 1; // num3
+			int npcHomeY = npc.homeTileY; // num3
 			int npcHomeX = npc.homeTileX;
 			WorldGen.TownManager.AddOccupantsToList(npc.homeTileX, npc.homeTileY, occupantBanners);
 
@@ -57,29 +58,61 @@ public class NPCHousesMapLayer : ModMapLayer
 			} while (!Main.tile[npcHomeX, npcHomeY].HasTile || !Main.tileSolid[Main.tile[npcHomeX, npcHomeY].TileType]);
 
 			var bannerTexture = TextureAssets.HouseBanner.Value;
-			SpriteFrame frame = new(2, 2)
+			int bannerStyle = occupantBanners.Contains(npc.type) ? 1 : 0;
+			SpriteFrame bannerFrame = new(2, 2)
 			{
+				CurrentColumn = (byte)bannerStyle,
+				CurrentRow = (byte)Math.Clamp(npc.housingCategory, 0, 1),
 				PaddingX = 2,
 				PaddingY = 2,
 			};
-			if (occupantBanners.Contains(npc.type)) frame = frame with { CurrentColumn = 1 };
-			if (npc.housingCategory > 0) frame = frame with { CurrentRow = 1 };
 
 			Vector2 position = new()
 			{
 				X = npc.homeTileX,
 				Y = npcHomeY + 2 // what is wrong with the math
 			};
-			context.Draw(
+			float normalScale = 1f;
+			float hoverScale = 1.25f;
+			var bannerResult = context.Draw(
 				texture: bannerTexture,
 				position: position,
 				color: Color.White,
-				frame: frame,
-				scaleIfNotSelected: 1f,
-				scaleIfSelected: 1.25f,
+				frame: bannerFrame,
+				scaleIfNotSelected: normalScale,
+				scaleIfSelected: hoverScale,
 				alignment: Alignment.Center
 			);
-			
+
+			int headIndex = TownNPCProfiles.GetHeadIndexSafe(npc);
+			var headTexture = TextureAssets.NpcHead[headIndex].Value;
+			var headFrame = new SpriteFrame(1, 1);
+			float headMaxDim = Math.Max(headTexture.Width, headTexture.Height);
+			float scale = headMaxDim > 24 ? 24f / headMaxDim : 1f;
+
+			var headResult = context.Draw(
+				texture: headTexture,
+				position: position,
+				color: Color.White,
+				frame: headFrame,
+				scaleIfNotSelected: scale * (bannerResult.IsMouseOver ? hoverScale : normalScale),
+				scaleIfSelected: scale * (bannerResult.IsMouseOver ? hoverScale : normalScale),
+				alignment: Alignment.Center
+			);
+
+			// the banner is always bigger than the head so I don't have to handle both hovers
+			if (bannerResult.IsMouseOver)
+			{
+				string bannerText = Lang.GetNPCHouseBannerText(npc, bannerStyle);
+				//MouseText(bannerText, 0, 0);
+				text = bannerText;
+				if (/*Main.mouseRightRelease && */Main.mouseRight)
+				{
+					//Main.mouseRightRelease = false;
+					WorldGen.kickOut(npcsWithBanners[i]);
+					SoundEngine.PlaySound(SoundID.MenuTick);
+				}
+			}
 		}
 	}
 }
