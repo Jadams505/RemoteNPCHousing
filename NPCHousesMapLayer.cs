@@ -106,9 +106,13 @@ public class NPCHousesMapLayer : ModMapLayer
 				string bannerText = Lang.GetNPCHouseBannerText(npc, bannerStyle);
 				//MouseText(bannerText, 0, 0);
 				text = bannerText;
-				if (/*Main.mouseRightRelease && */Main.mouseRight)
+				if (Main.mouseRightRelease && Main.mouseRight)
 				{
-					//Main.mouseRightRelease = false;
+					// since this is called before PostDrawFullscreenMap() resetting this will
+					// prevent clearing the housing query AND the current housing banner at the same time
+					// which is the normal behavior.
+					// It also prevents clearing multiple overlapping banners at the same time (although they get cleared in reverse order. TODO: Fix at some point)
+					Main.mouseRightRelease = false; 
 					WorldGen.kickOut(npcsWithBanners[i]);
 					SoundEngine.PlaySound(SoundID.MenuTick);
 				}

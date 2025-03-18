@@ -53,8 +53,8 @@ public class MapHousingSystem : ModSystem
 
 		Main.LocalPlayer.mouseInterface = true;
 		Main.mouseText = false;
-		// mouseRightRelease is never true in the fullscreen map?
-		if (Main.mouseRight /*&& Main.mouseRightRelease*/)
+		// mouseRightRelease is never true in the fullscreen map? Fixed with IL
+		if (Main.mouseRight && Main.mouseRightRelease)
 		{
 			SoundEngine.PlaySound(SoundID.MenuTick);
 			main.SetMouseNPC(-1, -1);
