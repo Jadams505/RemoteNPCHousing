@@ -1,0 +1,3 @@
+displayName = World Map NPC Housing
+author = Jadams
+version = 0.1
