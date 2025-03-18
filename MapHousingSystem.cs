@@ -89,10 +89,11 @@ public class MapHousingSystem : ModSystem
 
 			else if (main.mouseNPCIndex >= 0)
 			{
-				if (WorldGen.MoveTownNPC(tilePos.X, tilePos.Y, main.mouseNPCIndex))
+				int cachedIndex = main.mouseNPCIndex;
+				if (WorldGen.MoveTownNPC(tilePos.X, tilePos.Y, cachedIndex))
 				{
-					main.SetMouseNPC(-1, -1);
-					WorldGen.moveRoom(tilePos.X, tilePos.Y, main.mouseNPCIndex);
+					main.SetMouseNPC(-1, -1); // does this need to be called first?
+					WorldGen.moveRoom(tilePos.X, tilePos.Y, cachedIndex);
 					SoundEngine.PlaySound(SoundID.MenuTick);
 				}
 			}
