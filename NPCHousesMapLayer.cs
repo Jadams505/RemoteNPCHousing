@@ -20,8 +20,7 @@ public class NPCHousesMapLayer : ModMapLayer
 {
 	public override void Draw(ref MapOverlayDrawContext context, ref string text)
 	{
-		// find a better condition later
-		if (false && Main.instance.mouseNPCType == -1) return;
+		if (!MapHousingSystem.Instance.IsHousingOpen) return;
 
 		List<int> npcsWithBanners = [];
 		List<int> occupantBanners = [];

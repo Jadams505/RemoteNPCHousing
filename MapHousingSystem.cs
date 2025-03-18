@@ -6,17 +6,23 @@ using Terraria.GameContent;
 using Terraria.GameInput;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.UI.Gamepad;
 
 namespace RemoteNPCHousing;
 public class MapHousingSystem : ModSystem
 {
 	public static MapHousingSystem Instance => ModContent.GetInstance<MapHousingSystem>();
 
+	public bool IsHousingOpen { get; set; } = false;
+
 	public override void PostDrawFullscreenMap(ref string mouseText)
 	{
-		Main_DrawNPCHousesInUI(Main.instance);
-		//Main_DrawInterface_38_MouseCarriedObject(Main.instance);
-		HandleMouseNPC(Main.instance);
+		DrawHousingToggle();
+		if (IsHousingOpen)
+		{
+			Main_DrawNPCHousesInUI(Main.instance);
+			HandleMouseNPC(Main.instance);
+		}
 	}
 
 	[UnsafeAccessor(UnsafeAccessorKind.Method, Name = "DrawNPCHousesInUI")]
@@ -25,6 +31,28 @@ public class MapHousingSystem : ModSystem
 	[UnsafeAccessor(UnsafeAccessorKind.Method, Name = "DrawInterface_38_MouseCarriedObject")]
 	internal static extern void Main_DrawInterface_38_MouseCarriedObject(Main self);
 
+	public const int HousingClosed = 4;
+	public const int HousingOpen = 5;
+	public const int HousingHovered = 7;
+	public void DrawHousingToggle()
+	{
+		var texture = TextureAssets.EquipPage[IsHousingOpen ? HousingOpen : HousingClosed].Value;
+		Vector2 position = new(16, Main.ScreenSize.Y - 40 - 32);
+		bool hovering = Collision.CheckAABBvAABBCollision(position, texture.Size(), Main.MouseScreen, Vector2.One);
+		if (hovering)
+		{
+			Main.spriteBatch.Draw(TextureAssets.EquipPage[HousingHovered].Value, position, null, 
+				Main.OurFavoriteColor, 0f, new Vector2(2f), 0.9f, SpriteEffects.None, 0f);
+		}
+		Main.spriteBatch.Draw(texture, position, null, Color.White, 0f, Vector2.Zero, 0.9f, SpriteEffects.None, 0f);
+
+		if (Main.mouseLeft && Main.mouseLeftRelease && hovering)
+		{
+			IsHousingOpen = !IsHousingOpen;
+		}
+	}
+
+	// Reimplementation of Main.DrawInterface_38_MouseCarriedObject()
 	public static void HandleMouseNPC(Main main)
 	{
 		if (main.mouseNPCType <= -1) return;
@@ -74,11 +102,6 @@ public class MapHousingSystem : ModSystem
 
 			if (main.mouseNPCType == 0)
 			{
-				int x = (int)((Main.mouseX + Main.screenPosition.X) / 16f);
-				int y = (int)((Main.mouseY + Main.screenPosition.Y) / 16f);
-				if (Main.LocalPlayer.gravDir == -1f)
-					y = (int)((Main.screenPosition.Y + Main.screenHeight - Main.mouseY) / 16f);
-
 				Main.NewText($"({tilePos.X}, {tilePos.Y})");
 
 				if (WorldGen.MoveTownNPC(tilePos.X, tilePos.Y, -1))
