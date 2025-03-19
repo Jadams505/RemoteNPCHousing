@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
+using RemoteNPCHousing.UI;
 using System.Runtime.CompilerServices;
 using Terraria;
 using Terraria.Audio;
@@ -35,7 +36,7 @@ public class MapHousingSystem : ModSystem
 		{
 			_interface = new UserInterface();
 			_state = new UIState();
-			_housingToggle = new UIHousingIcon();
+			_housingToggle = new UIConfiguredHousingIcon();
 			_state.Append(_housingToggle);
 
 			_interface.SetState(_state);

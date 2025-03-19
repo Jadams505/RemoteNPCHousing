@@ -15,20 +15,37 @@ public class ClientConfig : ModConfig
 
 	public override ConfigScope Mode => ConfigScope.ClientSide;
 
-	[Expand(false)]
+	public bool Enable = true;
+
+	[Expand(true)]
 	public HousingIconConfig HousingIconOptions = new();
+
+	[Expand(true)]
+	public HousingBannersConfig HousingBannersOptions = new();
+
+	[Expand(true)]
+	public HousingPanelConfig HousingPanelOptions = new();
+}
+
+public enum IconDisplayOptions
+{
+	AlwaysShow,
+	NeverShow,
+}
+
+public enum IconPositionOptions
+{
+	Vanilla,
+	Custom
 }
 
 public class HousingIconConfig
 {
-	public bool UseDefaultPosition = true;
-
-	public bool LockPosition = true;
-
-	[Range(0.2f, 5f)]
 	[DrawTicks]
-	[Increment(0.1f)]
-	public float Scale = 0.9f;
+	public IconDisplayOptions DisplayOption = IconDisplayOptions.AlwaysShow;
+
+	[DrawTicks]
+	public IconPositionOptions PositionOption = IconPositionOptions.Vanilla;
 
 	[Range(0, 10000)]
 	public int HousingIconPosX = 0;
@@ -36,29 +53,105 @@ public class HousingIconConfig
 	[Range(0, 10000)]
 	public int HousingIconPosY = 0;
 
+	public bool LockPosition = true;
+
+	[Range(0.7f, 2f)]
+	[DrawTicks]
+	[Increment(0.1f)]
+	public float Scale = 1f; // vanilla is technically 0.9, but this is nicer
+
 	public Vector2 Position => new(HousingIconPosX, HousingIconPosY);
 
 	// values taken from Main.DrawPageIcons()
-	public static Vector2 DefaultPosition()
+	public Vector2 DefaultPosition()
 	{
-		int yOffset = 174 - 32 + MapHousingSystem.Main_mH(Main.instance);
-		Vector2 defaultPos = new Vector2(Main.screenWidth - 162, yOffset);
+		// scale is not part of vanilla, but allows you to change scale in the config and it still be roughly vanilla positioned
+		float yOffset = 174 - (32 * Scale) + MapHousingSystem.Main_mH(Main.instance);
+		Vector2 defaultPos = new Vector2(Main.screenWidth - 162, (int)yOffset);
 		defaultPos.X += 82 - 48;
 		return defaultPos;
 	}
 
 	public override bool Equals(object? obj)
 	{
-		return obj is HousingIcon icon &&
-			   UseDefaultPosition == icon.UseDefaultPosition &&
-			   LockPosition == icon.LockPosition &&
-			   HousingIconPosX == icon.HousingIconPosX &&
-			   HousingIconPosY == icon.HousingIconPosY;
+		return obj is HousingIconConfig config &&
+			   DisplayOption == config.DisplayOption &&
+			   PositionOption == config.PositionOption &&
+			   HousingIconPosX == config.HousingIconPosX &&
+			   HousingIconPosY == config.HousingIconPosY &&
+			   LockPosition == config.LockPosition &&
+			   Scale == config.Scale;
 	}
 
 	public override int GetHashCode()
 	{
-		return HashCode.Combine(UseDefaultPosition, LockPosition, HousingIconPosX, HousingIconPosY);
+		return HashCode.Combine(DisplayOption, PositionOption, HousingIconPosX, HousingIconPosY, LockPosition, Scale);
 	}
 }
 
+public enum BannerDisplayOptions
+{
+	Vanilla, // show if housing panel is open
+	AlwaysShow,
+	NeverShow
+}
+
+public enum BannerScaleOptions
+{
+	UseScaleValues,
+	ScaleToFit
+}
+
+public class HousingBannersConfig
+{
+	[DrawTicks]
+	public BannerScaleOptions ScaleOption = BannerScaleOptions.UseScaleValues;
+
+	public float BannerScale = 1f;
+
+	public float HoverScale = 1.25f;
+
+	[DrawTicks]
+	public BannerDisplayOptions DisplayOptions = BannerDisplayOptions.Vanilla;
+
+	public override bool Equals(object? obj)
+	{
+		return obj is HousingBannersConfig config &&
+			   ScaleOption == config.ScaleOption &&
+			   BannerScale == config.BannerScale &&
+			   HoverScale == config.HoverScale &&
+			   DisplayOptions == config.DisplayOptions;
+	}
+
+	public override int GetHashCode()
+	{
+		return HashCode.Combine(ScaleOption, BannerScale, HoverScale, DisplayOptions);
+	}
+}
+
+public enum PanelPositionOptions
+{
+	MiniMapOpen,
+	MiniMapClosed,
+	CustomOffset
+}
+
+public class HousingPanelConfig
+{
+	[DrawTicks]
+	public PanelPositionOptions PositionOption = PanelPositionOptions.MiniMapOpen;
+
+	public int VerticalOffset = 0;
+
+	public override bool Equals(object? obj)
+	{
+		return obj is HousingPanelConfig config &&
+			   PositionOption == config.PositionOption &&
+			   VerticalOffset == config.VerticalOffset;
+	}
+
+	public override int GetHashCode()
+	{
+		return HashCode.Combine(PositionOption, VerticalOffset);
+	}
+}

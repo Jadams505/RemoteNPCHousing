@@ -2,22 +2,42 @@ Configs: {
 	ClientConfig: {
 		DisplayName: Client Config
 
+		Enable: {
+			Label: Enable
+			Tooltip: ""
+		}
+
 		HousingIconOptions: {
 			Label: Housing Icon Options
 			Tooltip: ""
 		}
-	}
 
-	HousingIcon: {
-		Tooltip: ""
-
-		UseDefaultPosition: {
-			Label: Use Default Position
+		HousingBannersOptions: {
+			Label: Housing Banners Options
 			Tooltip: ""
 		}
 
-		LockPosition: {
-			Label: Lock Position
+		HousingPanelOptions: {
+			Label: Housing Panel Options
+			Tooltip: ""
+		}
+	}
+
+	HousingIconConfig: {
+		Tooltip: ""
+
+		DisplayOption: {
+			Label: Display Option
+			Tooltip: ""
+		}
+
+		PositionOption: {
+			Label: Position Option
+			Tooltip: ""
+		}
+
+		Position: {
+			Label: Position
 			Tooltip: ""
 		}
 
@@ -31,9 +51,84 @@ Configs: {
 			Tooltip: ""
 		}
 
-		Position: {
-			Label: Position
+		LockPosition: {
+			Label: Lock Position
 			Tooltip: ""
 		}
+
+		Scale: {
+			Label: Scale
+			Tooltip: ""
+		}
+	}
+
+	IconDisplayOptions: {
+		Tooltip: ""
+		AlwaysShow.Label: Always Show
+		NeverShow.Label: Never Show
+	}
+
+	IconPositionOptions: {
+		Tooltip: ""
+		Vanilla.Label: Vanilla
+		Custom.Label: Custom
+	}
+
+	HousingBannersConfig: {
+		Tooltip: ""
+
+		ScaleOption: {
+			Label: Scale Option
+			Tooltip: ""
+		}
+
+		BannerScale: {
+			Label: Banner Scale
+			Tooltip: ""
+		}
+
+		HoverScale: {
+			Label: Hover Scale
+			Tooltip: ""
+		}
+
+		DisplayOptions: {
+			Label: Display Options
+			Tooltip: ""
+		}
+	}
+
+	BannerScaleOptions: {
+		Tooltip: ""
+		UseScaleValues.Label: Use Scale Values
+		ScaleToFit.Label: Scale To Fit
+	}
+
+	BannerDisplayOptions: {
+		Tooltip: ""
+		Vanilla.Label: Vanilla
+		AlwaysShow.Label: Always Show
+		NeverShow.Label: Never Show
+	}
+
+	HousingPanelConfig: {
+		Tooltip: ""
+
+		PositionOption: {
+			Label: Position Option
+			Tooltip: ""
+		}
+
+		VerticalOffset: {
+			Label: Vertical Offset
+			Tooltip: ""
+		}
+	}
+
+	PanelPositionOptions: {
+		Tooltip: ""
+		MiniMapOpen.Label: Mini Map Open
+		MiniMapClosed.Label: Mini Map Closed
+		CustomOffset.Label: Custom Offset
 	}
 }
