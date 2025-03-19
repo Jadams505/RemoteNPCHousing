@@ -18,15 +18,23 @@ using Terraria.UI.Gamepad;
 namespace RemoteNPCHousing;
 public class NPCHousesMapLayer : ModMapLayer
 {
-	public static HousingBannersConfig Config => ClientConfig.Instance.HousingBannersOptions;
+	public static HousingBannersConfig? Config => ClientConfig.Instance.GetRelevantConfig();
 
-	public static bool ShouldDraw() => Config.DisplayOptions switch
+	public static bool ShouldDraw()
 	{
-		BannerDisplayOptions.Vanilla => MapHousingSystem.Instance.IsHousingOpen,
-		BannerDisplayOptions.AlwaysShow => true,
-		BannerDisplayOptions.NeverShow => false,
-		_ => MapHousingSystem.Instance.IsHousingOpen
-	};
+		if (Config is null) return false;
+		if (Config.DisplayOptions == BannerDisplayOptions.AlwaysShow) return true;
+		if (Config.DisplayOptions == BannerDisplayOptions.NeverShow) return false;
+
+		if (Config.DisplayOptions == BannerDisplayOptions.Vanilla)
+		{
+			if (Main.mapFullscreen) return MapHousingSystem.Instance.IsHousingOpen;
+			if (Main.mapStyle == 1) return Main.EquipPage == 1;
+			if (Main.mapStyle == 2) return Main.EquipPage == 1;
+		}
+
+		return false;
+	}
 
 	// Re-implementation of Main.DrawNPCHousesInWorld()
 	public override void Draw(ref MapOverlayDrawContext context, ref string text)
@@ -52,7 +60,7 @@ public class NPCHousesMapLayer : ModMapLayer
 			WorldGen.TownManager.AddOccupantsToList(npc.homeTileX, npc.homeTileY, occupantBanners);
 
 			int roomateCount = 0;
-			for(int j = i + 1; j < npcsWithBanners.Count; ++j)
+			for (int j = i + 1; j < npcsWithBanners.Count; ++j)
 			{
 				var roomate = Main.npc[npcsWithBanners[j]];
 				if (roomate.homeTileX == npc.homeTileX && roomate.homeTileY == npc.homeTileY)
@@ -79,7 +87,9 @@ public class NPCHousesMapLayer : ModMapLayer
 
 			// used for ScaleToFit. This is how many map tiles the image should take up
 			// so that it can be scaled to fit these dimensions
-			int fitTiles = 4;
+			int fitTiles = Config!.ScaleOption != BannerScaleOptions.ScaleToFit
+				? 1
+				: Config.BannerTiles;
 
 			Vector2 position = new()
 			{
@@ -89,18 +99,7 @@ public class NPCHousesMapLayer : ModMapLayer
 
 			var drawSize = bannerFrame.GetSourceRectangle(bannerTexture).Size();
 
-			float normalScale = Config.ScaleOption switch
-			{
-				BannerScaleOptions.UseScaleValues => Config.BannerScale,
-				BannerScaleOptions.ScaleToFit => Main.mapFullscreenScale * fitTiles / drawSize.Y,
-				_ => Config.BannerScale,
-			};
-			float hoverScale = Config.ScaleOption switch
-			{
-				BannerScaleOptions.UseScaleValues => Config.HoverScale,
-				BannerScaleOptions.ScaleToFit => 2f * Main.mapFullscreenScale * fitTiles / drawSize.Y,
-				_ => Config.HoverScale,
-			};
+			DetermineScale(fitTiles, drawSize, out var normalScale, out var hoverScale);
 			var bannerResult = context.Draw(
 				texture: bannerTexture,
 				position: position,
@@ -139,11 +138,49 @@ public class NPCHousesMapLayer : ModMapLayer
 					// prevent clearing the housing query AND the current housing banner at the same time
 					// which is the normal behavior.
 					// It also prevents clearing multiple overlapping banners at the same time (although they get cleared in reverse order. TODO: Fix at some point)
-					Main.mouseRightRelease = false; 
+					Main.mouseRightRelease = false;
 					WorldGen.kickOut(npcsWithBanners[i]);
 					SoundEngine.PlaySound(SoundID.MenuTick);
 				}
 			}
 		}
+	}
+
+	private static void DetermineScale(int fitTiles, Vector2 drawSize, out float normalScale, out float hoverScale)
+	{
+		normalScale = 1f;
+		hoverScale = 1f;
+		if (Config is null) return;
+
+		if (Main.mapFullscreen)
+		{
+			DetermineScale(Main.mapFullscreenScale, out normalScale, out hoverScale);
+		}
+		else if (Main.mapStyle == 1)
+		{
+			DetermineScale(Main.mapMinimapScale, out normalScale, out hoverScale);
+		}
+		else if (Main.mapStyle == 2)
+		{
+			DetermineScale(Main.mapOverlayScale, out normalScale, out hoverScale);
+		}
+
+		void DetermineScale(float scale, out float normalScale, out float hoverScale)
+		{
+			float hoverFactor = Config!.HoverScale / Config.BannerScale;
+			normalScale = Config.ScaleOption switch
+			{
+				BannerScaleOptions.UseScaleValues => Config.BannerScale,
+				BannerScaleOptions.ScaleToFit => scale * fitTiles / drawSize.Y,
+				_ => Config.BannerScale,
+			};
+			hoverScale = Config.ScaleOption switch
+			{
+				BannerScaleOptions.UseScaleValues => Config.HoverScale,
+				BannerScaleOptions.ScaleToFit => hoverFactor * scale * fitTiles / drawSize.Y,
+				_ => Config.HoverScale,
+			};
+		}
+
 	}
 }

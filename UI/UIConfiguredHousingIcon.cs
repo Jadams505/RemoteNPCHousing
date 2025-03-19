@@ -9,7 +9,7 @@ using Terraria.UI;
 namespace RemoteNPCHousing.UI;
 public class UIConfiguredHousingIcon : UIHousingIcon
 {
-	public static HousingIconConfig Config => ClientConfig.Instance.HousingIconOptions;
+	public static HousingIconConfig Config => ClientConfig.Instance.FullscreenMapOptions.HousingIconOptions;
 
 
 	public UIConfiguredHousingIcon() : base(Config.HousingIconPosX,

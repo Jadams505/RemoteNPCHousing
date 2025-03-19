@@ -7,13 +7,32 @@ Configs: {
 			Tooltip: ""
 		}
 
-		HousingIconOptions: {
-			Label: Housing Icon Options
+		FullscreenMapOptions: {
+			Label: Fullscreen Map Options
 			Tooltip: ""
 		}
 
-		HousingBannersOptions: {
-			Label: Housing Banners Options
+		MiniMapOptions: {
+			Label: Mini Map Options
+			Tooltip: ""
+		}
+
+		OverlayMapOptions: {
+			Label: Overlay Map Options
+			Tooltip: ""
+		}
+	}
+
+	FullscreenMapConfig: {
+		Tooltip: ""
+
+		FullscreenBannersOptions: {
+			Label: Fullscreen Banners Options
+			Tooltip: ""
+		}
+
+		HousingIconOptions: {
+			Label: Housing Icon Options
 			Tooltip: ""
 		}
 
@@ -21,6 +40,48 @@ Configs: {
 			Label: Housing Panel Options
 			Tooltip: ""
 		}
+	}
+
+	HousingBannersConfig: {
+		Tooltip: ""
+
+		ScaleOption: {
+			Label: Scale Option
+			Tooltip: ""
+		}
+
+		BannerScale: {
+			Label: Banner Scale
+			Tooltip: ""
+		}
+
+		HoverScale: {
+			Label: Hover Scale
+			Tooltip: ""
+		}
+
+		DisplayOptions: {
+			Label: Display Options
+			Tooltip: ""
+		}
+
+		BannerTiles: {
+			Label: Banner Tiles
+			Tooltip: ""
+		}
+	}
+
+	BannerScaleOptions: {
+		Tooltip: ""
+		UseScaleValues.Label: Use Scale Values
+		ScaleToFit.Label: Scale To Fit
+	}
+
+	BannerDisplayOptions: {
+		Tooltip: ""
+		Vanilla.Label: Vanilla
+		AlwaysShow.Label: Always Show
+		NeverShow.Label: Never Show
 	}
 
 	HousingIconConfig: {
@@ -74,43 +135,6 @@ Configs: {
 		Custom.Label: Custom
 	}
 
-	HousingBannersConfig: {
-		Tooltip: ""
-
-		ScaleOption: {
-			Label: Scale Option
-			Tooltip: ""
-		}
-
-		BannerScale: {
-			Label: Banner Scale
-			Tooltip: ""
-		}
-
-		HoverScale: {
-			Label: Hover Scale
-			Tooltip: ""
-		}
-
-		DisplayOptions: {
-			Label: Display Options
-			Tooltip: ""
-		}
-	}
-
-	BannerScaleOptions: {
-		Tooltip: ""
-		UseScaleValues.Label: Use Scale Values
-		ScaleToFit.Label: Scale To Fit
-	}
-
-	BannerDisplayOptions: {
-		Tooltip: ""
-		Vanilla.Label: Vanilla
-		AlwaysShow.Label: Always Show
-		NeverShow.Label: Never Show
-	}
-
 	HousingPanelConfig: {
 		Tooltip: ""
 
@@ -130,5 +154,23 @@ Configs: {
 		MiniMapOpen.Label: Mini Map Open
 		MiniMapClosed.Label: Mini Map Closed
 		CustomOffset.Label: Custom Offset
+	}
+
+	MiniMapConfig: {
+		Tooltip: ""
+
+		MiniMapBannersOptions: {
+			Label: Mini Map Banners Options
+			Tooltip: ""
+		}
+	}
+
+	OverlayMapConfig: {
+		Tooltip: ""
+
+		OverlayMapBannersOptions: {
+			Label: Overlay Map Banners Options
+			Tooltip: ""
+		}
 	}
 }

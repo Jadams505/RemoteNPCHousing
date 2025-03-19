@@ -17,14 +17,22 @@ public class ClientConfig : ModConfig
 
 	public bool Enable = true;
 
-	[Expand(true)]
-	public HousingIconConfig HousingIconOptions = new();
+	[Expand(false)]
+	public FullscreenMapConfig FullscreenMapOptions = new();
 
-	[Expand(true)]
-	public HousingBannersConfig HousingBannersOptions = new();
+	[Expand(false)]
+	public MiniMapConfig MiniMapOptions = new();
 
-	[Expand(true)]
-	public HousingPanelConfig HousingPanelOptions = new();
+	[Expand(false)]
+	public OverlayMapConfig OverlayMapOptions = new();
+
+	public HousingBannersConfig? GetRelevantConfig()
+	{
+		if (Main.mapFullscreen) return FullscreenMapOptions.FullscreenBannersOptions;
+		if (Main.mapStyle == 1) return MiniMapOptions.MiniMapBannersOptions;
+		if (Main.mapStyle == 2) return OverlayMapOptions.OverlayMapBannersOptions;
+		return null;
+	}
 }
 
 public enum IconDisplayOptions
@@ -107,16 +115,23 @@ public class HousingBannersConfig
 	[DrawTicks]
 	public BannerScaleOptions ScaleOption = BannerScaleOptions.UseScaleValues;
 
-	[Range(0f, 2f)]
+	[Range(0.25f, 2f)]
 	[Increment(0.25f)]
 	public float BannerScale = 1f;
 
-	[Range(0f, 4f)]
+	[Range(0.25f, 4f)]
 	[Increment(0.25f)]
 	public float HoverScale = 1.25f;
 
 	[DrawTicks]
 	public BannerDisplayOptions DisplayOptions = BannerDisplayOptions.Vanilla;
+
+	// Used with the ScaleToFit option
+	// This is how many map tiles the image should take up
+	// so that it can be scaled to fit these dimensions
+	// TODO: Dynamically determine so that it always fits, then add a multiplier or something
+	[Range(1, 8)]
+	public int BannerTiles = 4;
 
 	public override bool Equals(object? obj)
 	{
@@ -124,12 +139,72 @@ public class HousingBannersConfig
 			   ScaleOption == config.ScaleOption &&
 			   BannerScale == config.BannerScale &&
 			   HoverScale == config.HoverScale &&
-			   DisplayOptions == config.DisplayOptions;
+			   DisplayOptions == config.DisplayOptions &&
+			   BannerTiles == config.BannerTiles;
 	}
 
 	public override int GetHashCode()
 	{
-		return HashCode.Combine(ScaleOption, BannerScale, HoverScale, DisplayOptions);
+		return HashCode.Combine(ScaleOption, BannerScale, HoverScale, DisplayOptions, BannerTiles);
+	}
+}
+
+public class FullscreenMapConfig
+{
+	[Expand(true)]
+	public HousingBannersConfig FullscreenBannersOptions = new();
+
+	[Expand(false)]
+	public HousingIconConfig HousingIconOptions = new();
+
+	[Expand(false)]
+	public HousingPanelConfig HousingPanelOptions = new();
+
+	public override bool Equals(object? obj)
+	{
+		return obj is FullscreenMapConfig config &&
+			   FullscreenBannersOptions.Equals(config.FullscreenBannersOptions) &&
+			   HousingIconOptions.Equals(config.HousingIconOptions) &&
+			   HousingPanelOptions.Equals(config.HousingPanelOptions);
+	}
+
+	public override int GetHashCode()
+	{
+		return HashCode.Combine(FullscreenBannersOptions, HousingIconOptions, HousingPanelOptions);
+	}
+}
+
+public class MiniMapConfig
+{
+	[Expand(true)]
+	public HousingBannersConfig MiniMapBannersOptions = new();
+
+	public override bool Equals(object? obj)
+	{
+		return obj is MiniMapConfig config &&
+			   MiniMapBannersOptions.Equals(config.MiniMapBannersOptions);
+	}
+
+	public override int GetHashCode()
+	{
+		return HashCode.Combine(MiniMapBannersOptions);
+	}
+}
+
+public class OverlayMapConfig
+{
+	[Expand(true)]
+	public HousingBannersConfig OverlayMapBannersOptions = new();
+
+	public override bool Equals(object? obj)
+	{
+		return obj is OverlayMapConfig config &&
+			   OverlayMapBannersOptions.Equals(config.OverlayMapBannersOptions);
+	}
+
+	public override int GetHashCode()
+	{
+		return HashCode.Combine(OverlayMapBannersOptions);
 	}
 }
 
