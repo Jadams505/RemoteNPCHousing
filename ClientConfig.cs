@@ -107,8 +107,12 @@ public class HousingBannersConfig
 	[DrawTicks]
 	public BannerScaleOptions ScaleOption = BannerScaleOptions.UseScaleValues;
 
+	[Range(0f, 2f)]
+	[Increment(0.25f)]
 	public float BannerScale = 1f;
 
+	[Range(0f, 4f)]
+	[Increment(0.25f)]
 	public float HoverScale = 1.25f;
 
 	[DrawTicks]

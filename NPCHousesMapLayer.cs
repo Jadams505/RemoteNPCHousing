@@ -18,10 +18,20 @@ using Terraria.UI.Gamepad;
 namespace RemoteNPCHousing;
 public class NPCHousesMapLayer : ModMapLayer
 {
+	public static HousingBannersConfig Config => ClientConfig.Instance.HousingBannersOptions;
+
+	public static bool ShouldDraw() => Config.DisplayOptions switch
+	{
+		BannerDisplayOptions.Vanilla => MapHousingSystem.Instance.IsHousingOpen,
+		BannerDisplayOptions.AlwaysShow => true,
+		BannerDisplayOptions.NeverShow => false,
+		_ => MapHousingSystem.Instance.IsHousingOpen
+	};
+
 	// Re-implementation of Main.DrawNPCHousesInWorld()
 	public override void Draw(ref MapOverlayDrawContext context, ref string text)
 	{
-		if (!MapHousingSystem.Instance.IsHousingOpen) return;
+		if (!ShouldDraw()) return;
 
 		List<int> npcsWithBanners = [];
 		List<int> occupantBanners = [];
@@ -67,13 +77,30 @@ public class NPCHousesMapLayer : ModMapLayer
 				PaddingY = 2,
 			};
 
+			// used for ScaleToFit. This is how many map tiles the image should take up
+			// so that it can be scaled to fit these dimensions
+			int fitTiles = 4;
+
 			Vector2 position = new()
 			{
 				X = npc.homeTileX,
-				Y = npcHomeY + 2 // what is wrong with the math
+				Y = npcHomeY + 2 + (fitTiles / 4) // what is wrong with the math
 			};
-			float normalScale = 1f;
-			float hoverScale = 1.25f;
+
+			var drawSize = bannerFrame.GetSourceRectangle(bannerTexture).Size();
+
+			float normalScale = Config.ScaleOption switch
+			{
+				BannerScaleOptions.UseScaleValues => Config.BannerScale,
+				BannerScaleOptions.ScaleToFit => Main.mapFullscreenScale * fitTiles / drawSize.Y,
+				_ => Config.BannerScale,
+			};
+			float hoverScale = Config.ScaleOption switch
+			{
+				BannerScaleOptions.UseScaleValues => Config.HoverScale,
+				BannerScaleOptions.ScaleToFit => 2f * Main.mapFullscreenScale * fitTiles / drawSize.Y,
+				_ => Config.HoverScale,
+			};
 			var bannerResult = context.Draw(
 				texture: bannerTexture,
 				position: position,
