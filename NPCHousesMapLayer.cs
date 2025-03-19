@@ -18,6 +18,7 @@ using Terraria.UI.Gamepad;
 namespace RemoteNPCHousing;
 public class NPCHousesMapLayer : ModMapLayer
 {
+	// Re-implementation of Main.DrawNPCHousesInWorld()
 	public override void Draw(ref MapOverlayDrawContext context, ref string text)
 	{
 		if (!MapHousingSystem.Instance.IsHousingOpen) return;

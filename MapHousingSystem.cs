@@ -6,6 +6,7 @@ using Terraria.GameContent;
 using Terraria.GameInput;
 using Terraria.ID;
 using Terraria.ModLoader;
+using Terraria.UI;
 using Terraria.UI.Gamepad;
 
 namespace RemoteNPCHousing;
@@ -13,46 +14,76 @@ public class MapHousingSystem : ModSystem
 {
 	public static MapHousingSystem Instance => ModContent.GetInstance<MapHousingSystem>();
 
-	public bool IsHousingOpen { get; set; } = false;
+	private GameTime _lastUpdateTime = null!;
+	private UserInterface _interface = null!;
+	private UIState _state = null!;
+	private UIHousingIcon _housingToggle = null!;
+
+	/// <summary>
+	/// Determines if anything at all should be drawn
+	/// </summary>
+	public bool IsUIEnabled { get; set; } = true;
+
+	/// <summary>
+	/// Determines if the housing UI is open and housing banners should be drawn
+	/// </summary>
+	public bool IsHousingOpen => _housingToggle.IsOpen;
+
+	public override void Load()
+	{
+		if (!Main.dedServ)
+		{
+			_interface = new UserInterface();
+			_state = new UIState();
+			_housingToggle = new UIHousingIcon();
+			_state.Append(_housingToggle);
+
+			_interface.SetState(_state);
+		}
+	}
+
+	public override void Unload()
+	{
+		_lastUpdateTime = null!;
+		_interface = null!;
+		_state = null!;
+	}
+
+	public override void UpdateUI(GameTime gameTime)
+	{
+		IsUIEnabled = Main.mapFullscreen;
+		if (IsUIEnabled)
+		{
+			_lastUpdateTime = gameTime;
+			_interface?.Update(gameTime);
+		}
+	}
+
+	public void Draw()
+	{
+		if (IsUIEnabled)
+		{
+			_interface?.Draw(Main.spriteBatch, _lastUpdateTime);
+			if (IsHousingOpen)
+			{
+				Main_DrawNPCHousesInUI(Main.instance);
+				HandleMouseNPC(Main.instance);
+			}
+		}
+	}
 
 	public override void PostDrawFullscreenMap(ref string mouseText)
 	{
-		DrawHousingToggle();
-		if (IsHousingOpen)
-		{
-			Main_DrawNPCHousesInUI(Main.instance);
-			HandleMouseNPC(Main.instance);
-		}
+		Draw();
 	}
 
 	[UnsafeAccessor(UnsafeAccessorKind.Method, Name = "DrawNPCHousesInUI")]
 	internal static extern void Main_DrawNPCHousesInUI(Main self);
 
-	[UnsafeAccessor(UnsafeAccessorKind.Method, Name = "DrawInterface_38_MouseCarriedObject")]
-	internal static extern void Main_DrawInterface_38_MouseCarriedObject(Main self);
+	[UnsafeAccessor(UnsafeAccessorKind.StaticField, Name = "mH")]
+	internal static extern ref int Main_mH(Main self);
 
-	public const int HousingClosed = 4;
-	public const int HousingOpen = 5;
-	public const int HousingHovered = 7;
-	public void DrawHousingToggle()
-	{
-		var texture = TextureAssets.EquipPage[IsHousingOpen ? HousingOpen : HousingClosed].Value;
-		Vector2 position = new(16, Main.ScreenSize.Y - 40 - 32);
-		bool hovering = Collision.CheckAABBvAABBCollision(position, texture.Size(), Main.MouseScreen, Vector2.One);
-		if (hovering)
-		{
-			Main.spriteBatch.Draw(TextureAssets.EquipPage[HousingHovered].Value, position, null, 
-				Main.OurFavoriteColor, 0f, new Vector2(2f), 0.9f, SpriteEffects.None, 0f);
-		}
-		Main.spriteBatch.Draw(texture, position, null, Color.White, 0f, Vector2.Zero, 0.9f, SpriteEffects.None, 0f);
-
-		if (Main.mouseLeft && Main.mouseLeftRelease && hovering)
-		{
-			IsHousingOpen = !IsHousingOpen;
-		}
-	}
-
-	// Reimplementation of Main.DrawInterface_38_MouseCarriedObject()
+	// Re-implementation of Main.DrawInterface_38_MouseCarriedObject()
 	public static void HandleMouseNPC(Main main)
 	{
 		if (main.mouseNPCType <= -1) return;

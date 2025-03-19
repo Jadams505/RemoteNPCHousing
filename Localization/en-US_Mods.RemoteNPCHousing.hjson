@@ -1,1 +1,39 @@
-Configs.ClientConfig.DisplayName: Client Config
+Configs: {
+	ClientConfig: {
+		DisplayName: Client Config
+
+		HousingIconOptions: {
+			Label: Housing Icon Options
+			Tooltip: ""
+		}
+	}
+
+	HousingIcon: {
+		Tooltip: ""
+
+		UseDefaultPosition: {
+			Label: Use Default Position
+			Tooltip: ""
+		}
+
+		LockPosition: {
+			Label: Lock Position
+			Tooltip: ""
+		}
+
+		HousingIconPosX: {
+			Label: Housing Icon Pos X
+			Tooltip: ""
+		}
+
+		HousingIconPosY: {
+			Label: Housing Icon Pos Y
+			Tooltip: ""
+		}
+
+		Position: {
+			Label: Position
+			Tooltip: ""
+		}
+	}
+}
