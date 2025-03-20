@@ -10,14 +10,14 @@ namespace RemoteNPCHousing.Configs;
 
 public enum IconDisplayOptions
 {
-	AlwaysShow,
-	NeverShow,
+	AlwaysShow = 0,
+	NeverShow = 1,
 }
 
 public enum IconPositionOptions
 {
-	Vanilla,
-	Custom
+	Vanilla = 0,
+	Custom = 1,
 }
 
 public class HousingIconConfig
@@ -44,10 +44,10 @@ public class HousingIconConfig
 	public bool AllowHoverText = true;
 
 	// values taken from Main.DrawPageIcons()
-	public Vector2 DefaultPosition()
+	public Vector2 DefaultPosition(int mapHeight)
 	{
 		// scale is not part of vanilla, but allows you to change scale in the config and it still be roughly vanilla positioned
-		float yOffset = 174 - 32 * Scale + MapHousingSystem.Main_mH(Main.instance);
+		float yOffset = 174 - 32 * Scale + mapHeight;
 		Vector2 defaultPos = new Vector2(Main.screenWidth - 162, (int)yOffset);
 		defaultPos.X += 82 - 48;
 		return defaultPos;

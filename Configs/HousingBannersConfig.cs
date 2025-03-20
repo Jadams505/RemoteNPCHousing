@@ -9,15 +9,15 @@ namespace RemoteNPCHousing.Configs;
 
 public enum BannerDisplayOptions
 {
-	Vanilla, // show if housing panel is open
-	AlwaysShow,
-	NeverShow
+	Vanilla = 0, // show if housing panel is open
+	AlwaysShow = 1,
+	NeverShow = 2
 }
 
 public enum BannerScaleOptions
 {
-	UseScaleValues,
-	ScaleToFit
+	UseScaleValues = 0,
+	ScaleToFit = 1,
 }
 
 public class HousingBannersConfig

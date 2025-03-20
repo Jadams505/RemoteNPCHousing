@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
+using RemoteNPCHousing.Configs;
 using RemoteNPCHousing.UI;
 using System.Runtime.CompilerServices;
 using Terraria;
@@ -9,6 +10,7 @@ using Terraria.ID;
 using Terraria.ModLoader;
 using Terraria.UI;
 using Terraria.UI.Gamepad;
+using tModPorter;
 
 namespace RemoteNPCHousing;
 public class MapHousingSystem : ModSystem
@@ -71,10 +73,22 @@ public class MapHousingSystem : ModSystem
 			}
 			if (IsHousingOpen)
 			{
+				ChangeMapHeightFromConfig(out int oldValue);
 				Main_DrawNPCHousesInUI(Main.instance);
+				Main_mH(Main.instance) = oldValue;
+
 				HandleMouseNPC(Main.instance);
 			}
 		}
+	}
+
+	public static void ChangeMapHeightFromConfig(out int old)
+	{
+		var config = ClientConfig.Instance.FullscreenMapOptions.HousingPanelOptions;
+
+		old = Main_mH(Main.instance);
+		int height = config.GetDefaultVerticalOffset(old);
+		Main_mH(Main.instance) = height; 
 	}
 
 	public override void PostDrawFullscreenMap(ref string mouseText)

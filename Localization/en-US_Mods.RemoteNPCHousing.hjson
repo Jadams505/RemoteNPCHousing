@@ -1,0 +1,192 @@
+Configs: {
+	ClientConfig: {
+		DisplayName: Client Config
+
+		Enable: {
+			Label: Enable
+			Tooltip: ""
+		}
+
+		FullscreenMapOptions: {
+			Label: Fullscreen Map Options
+			Tooltip: ""
+		}
+
+		MiniMapOptions: {
+			Label: Mini Map Options
+			Tooltip: ""
+		}
+
+		OverlayMapOptions: {
+			Label: Overlay Map Options
+			Tooltip: ""
+		}
+	}
+
+	FullscreenMapConfig: {
+		Tooltip: ""
+
+		FullscreenBannersOptions: {
+			Label: Fullscreen Banners Options
+			Tooltip: ""
+		}
+
+		HousingIconOptions: {
+			Label: Housing Icon Options
+			Tooltip: ""
+		}
+
+		HousingPanelOptions: {
+			Label: Housing Panel Options
+			Tooltip: ""
+		}
+	}
+
+	HousingBannersConfig: {
+		Tooltip: ""
+
+		ScaleOption: {
+			Label: Scale Option
+			Tooltip: ""
+		}
+
+		BannerScale: {
+			Label: Banner Scale
+			Tooltip: ""
+		}
+
+		HoverScale: {
+			Label: Hover Scale
+			Tooltip: ""
+		}
+
+		DisplayOptions: {
+			Label: Display Options
+			Tooltip: ""
+		}
+
+		BannerTiles: {
+			Label: Banner Tiles
+			Tooltip: ""
+		}
+
+		AllowHoverText: {
+			Label: Allow Hover Text
+			Tooltip: ""
+		}
+
+		AllowClickActions: {
+			Label: Allow Click Actions
+			Tooltip: ""
+		}
+	}
+
+	BannerScaleOptions: {
+		Tooltip: ""
+		UseScaleValues.Label: Use Scale Values
+		ScaleToFit.Label: Scale To Fit
+	}
+
+	BannerDisplayOptions: {
+		Tooltip: ""
+		Vanilla.Label: Vanilla
+		AlwaysShow.Label: Always Show
+		NeverShow.Label: Never Show
+	}
+
+	HousingIconConfig: {
+		Tooltip: ""
+
+		DisplayOption: {
+			Label: Display Option
+			Tooltip: ""
+		}
+
+		PositionOption: {
+			Label: Position Option
+			Tooltip: ""
+		}
+
+		HousingIconX: {
+			Label: Housing Icon X
+			Tooltip: ""
+		}
+
+		HousingIconY: {
+			Label: Housing Icon Y
+			Tooltip: ""
+		}
+
+		LockPosition: {
+			Label: Lock Position
+			Tooltip: ""
+		}
+
+		Scale: {
+			Label: Scale
+			Tooltip: ""
+		}
+
+		AllowHoverText: {
+			Label: Allow Hover Text
+			Tooltip: ""
+		}
+	}
+
+	IconDisplayOptions: {
+		Tooltip: ""
+		AlwaysShow.Label: Always Show
+		NeverShow.Label: Never Show
+	}
+
+	IconPositionOptions: {
+		Tooltip: ""
+		Vanilla.Label: Vanilla
+		Custom.Label: Custom
+	}
+
+	HousingPanelConfig: {
+		Tooltip: ""
+
+		PositionOption: {
+			Label: Position Option
+			Tooltip: ""
+		}
+
+		VerticalOffset: {
+			Label: Vertical Offset
+			Tooltip: ""
+		}
+
+		SyncWithInventory: {
+			Label: Sync With Inventory
+			Tooltip: ""
+		}
+	}
+
+	PanelPositionOptions: {
+		Tooltip: ""
+		MiniMapOpen.Label: Mini Map Open
+		MiniMapClosed.Label: Mini Map Closed
+		CustomOffset.Label: Custom Offset
+		Vanilla.Label: Vanilla
+	}
+
+	MiniMapConfig: {
+		Tooltip: ""
+
+		MiniMapBannersOptions: {
+			Label: Mini Map Banners Options
+			Tooltip: ""
+		}
+	}
+
+	OverlayMapConfig: {
+		Tooltip: ""
+
+		OverlayMapBannersOptions: {
+			Label: Overlay Map Banners Options
+			Tooltip: ""
+		}
+	}
+}

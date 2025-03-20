@@ -63,7 +63,8 @@ public class UIConfiguredHousingIcon : UIHousingIcon
 	{
 		if (Config.PositionOption == IconPositionOptions.Vanilla)
 		{
-			var defaultPos = Config.DefaultPosition();
+			var panelConfig = ClientConfig.Instance.FullscreenMapOptions.HousingPanelOptions;
+			var defaultPos = Config.DefaultPosition(panelConfig.GetDefaultVerticalOffset(MapHousingSystem.Main_mH(Main.instance)));
 			var parentDim = Parent.GetDimensions().ToRectangle().Size();
 			Left.Set(0f, defaultPos.X / parentDim.X);
 			Top.Set(0f, defaultPos.Y / parentDim.Y);
