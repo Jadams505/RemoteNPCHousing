@@ -12,8 +12,8 @@ public class UIConfiguredHousingIcon : UIHousingIcon
 {
 	public static HousingIconConfig Config => ClientConfig.Instance.FullscreenMapOptions.HousingIconOptions;
 
-	public UIConfiguredHousingIcon() : base(Config.HousingIconPosX,
-		Config.HousingIconPosY)
+	public UIConfiguredHousingIcon() : base(Config.HousingIconX,
+		Config.HousingIconY)
 	{
 		IsOpen = Config.DisplayOption switch
 		{
@@ -42,13 +42,14 @@ public class UIConfiguredHousingIcon : UIHousingIcon
 	{
 		base.Drag();
 
-		Config.HousingIconPosX = (int)Left.Pixels;
-		Config.HousingIconPosY = (int)Top.Pixels;
+		Config.HousingIconX = Left.Percent;
+		Config.HousingIconY = Top.Percent;
 	}
 
 	public override void RightMouseDown(UIMouseEvent evt)
 	{
-		LastMouse = Main.MouseScreen;
+		var parentDim = Parent.GetDimensions().ToRectangle();
+		LastMousePercent = Main.MouseScreen / parentDim.Size();
 
 		if (!Config.LockPosition)
 		{
@@ -63,13 +64,14 @@ public class UIConfiguredHousingIcon : UIHousingIcon
 		if (Config.PositionOption == IconPositionOptions.Vanilla)
 		{
 			var defaultPos = Config.DefaultPosition();
-			Left.Set(defaultPos.X, 0f);
-			Top.Set(defaultPos.Y, 0f);
+			var parentDim = Parent.GetDimensions().ToRectangle().Size();
+			Left.Set(0f, defaultPos.X / parentDim.X);
+			Top.Set(0f, defaultPos.Y / parentDim.Y);
 		}
 		else if (Config.PositionOption == IconPositionOptions.Custom)
 		{
-			Left.Set(Config.HousingIconPosX, 0f);
-			Top.Set(Config.HousingIconPosY, 0f);
+			Left.Set(0f, Config.HousingIconX);
+			Top.Set(0f, Config.HousingIconY);
 		}
 	}
 }

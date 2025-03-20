@@ -28,11 +28,11 @@ public class HousingIconConfig
 	[DrawTicks]
 	public IconPositionOptions PositionOption = IconPositionOptions.Vanilla;
 
-	[Range(0, 10000)]
-	public int HousingIconPosX = 0;
+	[Range(0, 1f)]
+	public float HousingIconX = 0f;
 
-	[Range(0, 10000)]
-	public int HousingIconPosY = 0;
+	[Range(0, 1f)]
+	public float HousingIconY = 0f;
 
 	public bool LockPosition = true;
 
@@ -58,8 +58,8 @@ public class HousingIconConfig
 		return obj is HousingIconConfig config &&
 			   DisplayOption == config.DisplayOption &&
 			   PositionOption == config.PositionOption &&
-			   HousingIconPosX == config.HousingIconPosX &&
-			   HousingIconPosY == config.HousingIconPosY &&
+			   HousingIconX == config.HousingIconX &&
+			   HousingIconY == config.HousingIconY &&
 			   LockPosition == config.LockPosition &&
 			   Scale == config.Scale &&
 			   AllowHoverText == config.AllowHoverText;
@@ -67,6 +67,6 @@ public class HousingIconConfig
 
 	public override int GetHashCode()
 	{
-		return HashCode.Combine(DisplayOption, PositionOption, HousingIconPosX, HousingIconPosY, LockPosition, Scale);
+		return HashCode.Combine(DisplayOption, PositionOption, HousingIconX, HousingIconY, LockPosition, Scale);
 	}
 }

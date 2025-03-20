@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Terraria;
 using Terraria.GameContent;
 using Terraria.GameContent.UI.Elements;
+using Terraria.GameInput;
 using Terraria.UI;
 
 namespace RemoteNPCHousing.UI;
@@ -24,17 +25,17 @@ public class UIHousingIcon : UIElement
 	public int SizeX { get; } = 22;
 	public int SizeY { get; } = 24;
 
-	protected Vector2 LastMouse { get; set; }
+	protected Vector2 LastMousePercent { get; set; }
 	public bool Dragging { get; protected set; }
 
 	public bool Enabled { get; set; } = true;
 
-	public UIHousingIcon(int x, int y)
+	public UIHousingIcon(float x, float y)
 	{
 		Width.Set(SizeX * Scale, 0f);
 		Height.Set(SizeY * Scale, 0f);
-		Left.Set(x, 0f);
-		Top.Set(y, 0f);
+		Left.Set(0f, x);
+		Top.Set(0f, y);
 
 		// I have no idea why I have to do this, but if I put this in LeftClick
 		// all input gets disabled for some reason
@@ -50,6 +51,12 @@ public class UIHousingIcon : UIElement
 
 		Width.Set(SizeX * Scale, 0f);
 		Height.Set(SizeY * Scale, 0f);
+
+		var parentDim = Parent.GetDimensions();
+		var selfDim = GetDimensions();
+
+		Left.Set(0f, Math.Clamp(Left.Percent, 0, 1f - (selfDim.Width / parentDim.Width)));
+		Top.Set(0f, Math.Clamp(Top.Percent, 0, 1f - (selfDim.Height / parentDim.Height)));
 
 		base.Update(gameTime);
 
@@ -74,7 +81,7 @@ public class UIHousingIcon : UIElement
 
 	public override void RightMouseDown(UIMouseEvent evt)
 	{
-		LastMouse = Main.MouseScreen;
+		LastMousePercent = Main.MouseScreen / Parent.GetDimensions().ToRectangle().Size();
 
 		Main.LocalPlayer.mouseInterface = true;
 		Dragging = true;
@@ -93,14 +100,17 @@ public class UIHousingIcon : UIElement
 	{
 		if (Dragging)
 		{
-			Vector2 delta = Main.MouseScreen - LastMouse;
-			float newX = Left.Pixels + delta.X;
-			float newY = Top.Pixels + delta.Y;
-			newX = Math.Clamp(newX, 0, Parent.GetDimensions().Width);
-			newY = Math.Clamp(newY, 0, Parent.GetDimensions().Height);
-			Left.Set(newX, 0f);
-			Top.Set(newY, 0f);
-			LastMouse = Main.MouseScreen;
+			var parentDim = Parent.GetDimensions().ToRectangle();
+			var selfDim = GetDimensions().ToRectangle();
+			Vector2 currentMousePercent = Main.MouseScreen / parentDim.Size();
+			Vector2 delta = currentMousePercent - LastMousePercent;
+			float newX = Left.Percent + delta.X;
+			float newY = Top.Percent + delta.Y;
+			newX = Math.Clamp(newX, 0, 1f - ((float)selfDim.Width / parentDim.Width));
+			newY = Math.Clamp(newY, 0, 1f - ((float)selfDim.Height / parentDim.Height));
+			Left.Set(0, newX);
+			Top.Set(0, newY);
+			LastMousePercent = currentMousePercent;
 		}
 	}
 
