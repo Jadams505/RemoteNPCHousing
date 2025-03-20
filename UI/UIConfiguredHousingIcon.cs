@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RemoteNPCHousing.Configs;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,10 +12,15 @@ public class UIConfiguredHousingIcon : UIHousingIcon
 {
 	public static HousingIconConfig Config => ClientConfig.Instance.FullscreenMapOptions.HousingIconOptions;
 
-
 	public UIConfiguredHousingIcon() : base(Config.HousingIconPosX,
 		Config.HousingIconPosY)
 	{
+		IsOpen = Config.DisplayOption switch
+		{
+			IconDisplayOptions.AlwaysShow => true,
+			IconDisplayOptions.NeverShow => false,
+			_ => Enabled,
+		};
 	}
 
 	public override void Update(GameTime gameTime)

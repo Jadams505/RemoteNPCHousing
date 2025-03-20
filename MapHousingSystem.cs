@@ -60,11 +60,15 @@ public class MapHousingSystem : ModSystem
 		}
 	}
 
-	public void Draw()
+	public void Draw(ref string mouseText)
 	{
 		if (IsUIEnabled)
 		{
 			_interface?.Draw(Main.spriteBatch, _lastUpdateTime);
+			if (_housingToggle.IsMouseHovering && UIConfiguredHousingIcon.Config.AllowHoverText)
+			{
+				mouseText = Lang.inter[80].Value; // Housing
+			}
 			if (IsHousingOpen)
 			{
 				Main_DrawNPCHousesInUI(Main.instance);
@@ -75,7 +79,7 @@ public class MapHousingSystem : ModSystem
 
 	public override void PostDrawFullscreenMap(ref string mouseText)
 	{
-		Draw();
+		Draw(ref mouseText);
 	}
 
 	[UnsafeAccessor(UnsafeAccessorKind.Method, Name = "DrawNPCHousesInUI")]

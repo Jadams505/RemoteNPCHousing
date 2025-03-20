@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
+using RemoteNPCHousing.Configs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -129,10 +130,12 @@ public class NPCHousesMapLayer : ModMapLayer
 			// the banner is always bigger than the head so I don't have to handle both hovers
 			if (bannerResult.IsMouseOver)
 			{
-				string bannerText = Lang.GetNPCHouseBannerText(npc, bannerStyle);
-				//MouseText(bannerText, 0, 0);
-				text = bannerText;
-				if (Main.mouseRightRelease && Main.mouseRight)
+				if (Config.AllowHoverText)
+				{
+					string bannerText = Lang.GetNPCHouseBannerText(npc, bannerStyle);
+					text = bannerText;
+				}
+				if (Main.mouseRightRelease && Main.mouseRight && Config.AllowClickActions)
 				{
 					// since this is called before PostDrawFullscreenMap() resetting this will
 					// prevent clearing the housing query AND the current housing banner at the same time
