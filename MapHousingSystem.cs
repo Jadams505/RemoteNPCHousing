@@ -27,6 +27,8 @@ public class MapHousingSystem : ModSystem
 	/// </summary>
 	public bool IsUIEnabled { get; set; } = true;
 
+	private bool _mapFullscreenCache = false;
+
 	/// <summary>
 	/// Determines if the housing UI is open and housing banners should be drawn
 	/// </summary>
@@ -54,10 +56,16 @@ public class MapHousingSystem : ModSystem
 
 	public override void UpdateUI(GameTime gameTime)
 	{
+		bool mapJustOpened = !_mapFullscreenCache && Main.mapFullscreen;
+		_mapFullscreenCache = Main.mapFullscreen;
 		IsUIEnabled = Main.mapFullscreen;
 		if (IsUIEnabled)
 		{
 			_lastUpdateTime = gameTime;
+			if (mapJustOpened)
+			{
+				_housingToggle.IsOpen = UIConfiguredHousingIcon.Config.InitialState(_housingToggle.IsOpen, Main.EquipPage == 1);
+			}
 			_interface?.Update(gameTime);
 		}
 	}
