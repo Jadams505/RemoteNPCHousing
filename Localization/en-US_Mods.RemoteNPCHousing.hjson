@@ -55,6 +55,11 @@ Configs: {
 			Tooltip: ""
 		}
 
+		BannerTiles: {
+			Label: Banner Tiles
+			Tooltip: ""
+		}
+
 		HoverScale: {
 			Label: Hover Scale
 			Tooltip: ""
@@ -62,11 +67,6 @@ Configs: {
 
 		DisplayOptions: {
 			Label: Display Options
-			Tooltip: ""
-		}
-
-		BannerTiles: {
-			Label: Banner Tiles
 			Tooltip: ""
 		}
 
@@ -84,7 +84,6 @@ Configs: {
 	BannerScaleOptions: {
 		Tooltip: ""
 		UseScaleValues.Label: Use Scale Values
-		ScaleToFit.Label: Scale To Fit
 		UseTileValues.Label: Use Tile Values
 	}
 
@@ -132,11 +131,6 @@ Configs: {
 			Label: Allow Hover Text
 			Tooltip: ""
 		}
-
-		InitialStateOption: {
-			Label: Initial State Option
-			Tooltip: ""
-		}
 	}
 
 	IconDisplayOptions: {
@@ -154,6 +148,11 @@ Configs: {
 	HousingPanelConfig: {
 		Tooltip: ""
 
+		DisplayOption: {
+			Label: Display Option
+			Tooltip: ""
+		}
+
 		PositionOption: {
 			Label: Position Option
 			Tooltip: ""
@@ -163,19 +162,24 @@ Configs: {
 			Label: Vertical Offset
 			Tooltip: ""
 		}
+	}
 
-		SyncWithInventory: {
-			Label: Sync With Inventory
-			Tooltip: ""
-		}
+	PanelDisplayOptions: {
+		Tooltip: ""
+		Enabled.Label: Enabled
+		Disabled.Label: Disabled
+		Remember.Label: Remember
+		Vanilla.Label: Vanilla
+		VanillaIfEnabled.Label: Vanilla If Enabled
+		VanillaIfDisabled.Label: Vanilla If Disabled
 	}
 
 	PanelPositionOptions: {
 		Tooltip: ""
+		Vanilla.Label: Vanilla
 		MiniMapOpen.Label: Mini Map Open
 		MiniMapClosed.Label: Mini Map Closed
 		CustomOffset.Label: Custom Offset
-		Vanilla.Label: Vanilla
 	}
 
 	MiniMapConfig: {
@@ -194,15 +198,5 @@ Configs: {
 			Label: Overlay Map Banners Options
 			Tooltip: ""
 		}
-	}
-
-	InitialStateOptions: {
-		Tooltip: ""
-		Enabled.Label: Enabled
-		Disabled.Label: Disabled
-		Remember.Label: Remember
-		Vanilla.Label: Vanilla
-		VanillaIfEnabled.Label: Vanilla If Enabled
-		VanillaIfDisabled.Label: Vanilla If Disabled
 	}
 }

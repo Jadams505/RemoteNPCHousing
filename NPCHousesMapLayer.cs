@@ -21,9 +21,11 @@ public class NPCHousesMapLayer : ModMapLayer
 {
 	public static HousingBannersConfig? Config => ClientConfig.Instance.GetRelevantConfig();
 
+	// Should I be changing Visible instead?
 	public static bool ShouldDraw()
 	{
 		if (Config is null) return false;
+		if (!ClientConfig.Instance.Enable) return false;
 		if (Config.DisplayOptions == BannerDisplayOptions.AlwaysShow) return true;
 		if (Config.DisplayOptions == BannerDisplayOptions.NeverShow) return false;
 

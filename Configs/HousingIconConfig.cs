@@ -21,25 +21,11 @@ public enum IconPositionOptions
 	Custom = 1,
 }
 
-public enum InitialStateOptions // state when map is opened
-{
-	Enabled = 0,
-	Disabled = 1,
-	Remember = 2,
-	Vanilla = 3, // match the state of vanilla housing
-	VanillaIfEnabled = 4, // if vanilla housing is open when opening the map, then start opened
-	VanillaIfDisabled = 5, // if vanilla housing is closed when opening the map, then start closed
-}
-
 public class HousingIconConfig
 {
 	[DrawTicks]
 	[BackgroundColor(BG_Nest2_R, BG_Nest2_G, BG_Nest2_B)]
 	public IconDisplayOptions DisplayOption = IconDisplayOptions.AlwaysShow;
-
-	[DrawTicks]
-	[BackgroundColor(BG_Nest2_R, BG_Nest2_G, BG_Nest2_B)]
-	public InitialStateOptions InitialStateOption = InitialStateOptions.VanillaIfEnabled;
 
 	[DrawTicks]
 	[BackgroundColor(BG_Nest2_R, BG_Nest2_G, BG_Nest2_B)]
@@ -75,22 +61,10 @@ public class HousingIconConfig
 		return defaultPos;
 	}
 
-	public bool InitialState(bool lastState, bool vanillaState) => InitialStateOption switch
-	{
-		InitialStateOptions.Enabled => true,
-		InitialStateOptions.Disabled => false,
-		InitialStateOptions.Remember => lastState,
-		InitialStateOptions.Vanilla => vanillaState,
-		InitialStateOptions.VanillaIfEnabled => vanillaState ? vanillaState : lastState,
-		InitialStateOptions.VanillaIfDisabled => vanillaState ? lastState : vanillaState,
-		_ => lastState,
-	};
-
 	public override bool Equals(object? obj)
 	{
 		return obj is HousingIconConfig config &&
 			   DisplayOption == config.DisplayOption &&
-			   InitialStateOption == config.InitialStateOption &&
 			   PositionOption == config.PositionOption &&
 			   HousingIconX == config.HousingIconX &&
 			   HousingIconY == config.HousingIconY &&

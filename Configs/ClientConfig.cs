@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Terraria;
+using Terraria.DataStructures;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Config;
 using Terraria.ModLoader.UI;
@@ -20,7 +21,8 @@ public class ClientConfig : ModConfig
 
 	public override ConfigScope Mode => ConfigScope.ClientSide;
 
-	public bool Enable = true;
+	[DefaultValue(true)]
+	public bool Enable;
 
 	[Expand(false)]
 	public FullscreenMapConfig FullscreenMapOptions = new();

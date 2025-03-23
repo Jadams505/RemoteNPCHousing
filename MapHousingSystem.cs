@@ -1,12 +1,14 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
 using RemoteNPCHousing.Configs;
 using RemoteNPCHousing.UI;
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using Terraria;
 using Terraria.Audio;
 using Terraria.GameContent;
 using Terraria.GameInput;
 using Terraria.ID;
+using Terraria.Map;
 using Terraria.ModLoader;
 using Terraria.UI;
 using Terraria.UI.Gamepad;
@@ -25,7 +27,7 @@ public class MapHousingSystem : ModSystem
 	/// <summary>
 	/// Determines if anything at all should be drawn
 	/// </summary>
-	public bool IsUIEnabled { get; set; } = true;
+	public bool IsUIEnabled => Main.mapFullscreen && ClientConfig.Instance.Enable;
 
 	private bool _mapFullscreenCache = false;
 
@@ -58,13 +60,13 @@ public class MapHousingSystem : ModSystem
 	{
 		bool mapJustOpened = !_mapFullscreenCache && Main.mapFullscreen;
 		_mapFullscreenCache = Main.mapFullscreen;
-		IsUIEnabled = Main.mapFullscreen;
 		if (IsUIEnabled)
 		{
 			_lastUpdateTime = gameTime;
 			if (mapJustOpened)
 			{
-				_housingToggle.IsOpen = UIConfiguredHousingIcon.Config.InitialState(_housingToggle.IsOpen, Main.EquipPage == 1);
+				var panelConfig = ClientConfig.Instance.FullscreenMapOptions.HousingPanelOptions;
+				_housingToggle.IsOpen = panelConfig.GetInitialDisplay(_housingToggle.IsOpen, Main.EquipPage == 1);
 			}
 			_interface?.Update(gameTime);
 		}
