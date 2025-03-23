@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Terraria;
 using Terraria.ModLoader.Config;
+using static RemoteNPCHousing.Configs.ClientConfig;
 
 namespace RemoteNPCHousing.Configs;
 
@@ -33,27 +34,35 @@ public enum InitialStateOptions // state when map is opened
 public class HousingIconConfig
 {
 	[DrawTicks]
+	[BackgroundColor(BG_Nest2_R, BG_Nest2_G, BG_Nest2_B)]
 	public IconDisplayOptions DisplayOption = IconDisplayOptions.AlwaysShow;
 
 	[DrawTicks]
+	[BackgroundColor(BG_Nest2_R, BG_Nest2_G, BG_Nest2_B)]
 	public InitialStateOptions InitialStateOption = InitialStateOptions.VanillaIfEnabled;
 
 	[DrawTicks]
+	[BackgroundColor(BG_Nest2_R, BG_Nest2_G, BG_Nest2_B)]
 	public IconPositionOptions PositionOption = IconPositionOptions.Vanilla;
 
 	[Range(0, 1f)]
+	[BackgroundColor(BG_Nest2_R, BG_Nest2_G, BG_Nest2_B)]
 	public float HousingIconX = 0f;
 
 	[Range(0, 1f)]
+	[BackgroundColor(BG_Nest2_R, BG_Nest2_G, BG_Nest2_B)]
 	public float HousingIconY = 0f;
 
+	[BackgroundColor(BG_Nest2_R, BG_Nest2_G, BG_Nest2_B)]
 	public bool LockPosition = true;
 
 	[Range(0.7f, 2f)]
 	[DrawTicks]
 	[Increment(0.1f)]
+	[BackgroundColor(BG_Nest2_R, BG_Nest2_G, BG_Nest2_B)]
 	public float Scale = 1f; // vanilla is technically 0.9, but this is nicer
 
+	[BackgroundColor(BG_Nest2_R, BG_Nest2_G, BG_Nest2_B)]
 	public bool AllowHoverText = true;
 
 	// values taken from Main.DrawPageIcons()

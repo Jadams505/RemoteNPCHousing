@@ -85,6 +85,7 @@ Configs: {
 		Tooltip: ""
 		UseScaleValues.Label: Use Scale Values
 		ScaleToFit.Label: Scale To Fit
+		UseTileValues.Label: Use Tile Values
 	}
 
 	BannerDisplayOptions: {

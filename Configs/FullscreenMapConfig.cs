@@ -4,17 +4,21 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Terraria.ModLoader.Config;
+using static RemoteNPCHousing.Configs.ClientConfig;
 
 namespace RemoteNPCHousing.Configs;
 public class FullscreenMapConfig
 {
 	[Expand(true)]
+	[BackgroundColor(BG_Nest1_R, BG_Nest1_G, BG_Nest1_B)]
 	public HousingBannersConfig FullscreenBannersOptions = new();
 
-	[Expand(false)]
+	[Expand(true)]
+	[BackgroundColor(BG_Nest1_R, BG_Nest1_G, BG_Nest1_B)]
 	public HousingIconConfig HousingIconOptions = new();
 
-	[Expand(false)]
+	[Expand(true)]
+	[BackgroundColor(BG_Nest1_R, BG_Nest1_G, BG_Nest1_B)]
 	public HousingPanelConfig HousingPanelOptions = new();
 
 	public override bool Equals(object? obj)

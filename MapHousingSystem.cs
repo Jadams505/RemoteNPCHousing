@@ -75,7 +75,7 @@ public class MapHousingSystem : ModSystem
 		if (IsUIEnabled)
 		{
 			_interface?.Draw(Main.spriteBatch, _lastUpdateTime);
-			if (_housingToggle.IsMouseHovering && UIConfiguredHousingIcon.Config.AllowHoverText)
+			if (_housingToggle.IsMouseHovering && UIConfiguredHousingIcon.Config.AllowHoverText && _housingToggle.Enabled)
 			{
 				mouseText = Lang.inter[80].Value; // Housing
 			}

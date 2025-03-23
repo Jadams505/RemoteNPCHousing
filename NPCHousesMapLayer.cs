@@ -60,6 +60,7 @@ public class NPCHousesMapLayer : ModMapLayer
 			int npcHomeX = npc.homeTileX;
 			WorldGen.TownManager.AddOccupantsToList(npc.homeTileX, npc.homeTileY, occupantBanners);
 
+			/*
 			int roomateCount = 0;
 			for (int j = i + 1; j < npcsWithBanners.Count; ++j)
 			{
@@ -67,6 +68,7 @@ public class NPCHousesMapLayer : ModMapLayer
 				if (roomate.homeTileX == npc.homeTileX && roomate.homeTileY == npc.homeTileY)
 					roomateCount++;
 			}
+			*/
 
 			// move the banner up until it finds the top of the house
 			// so the banner looks like it is hanging from the roof
@@ -88,15 +90,20 @@ public class NPCHousesMapLayer : ModMapLayer
 
 			// used for ScaleToFit. This is how many map tiles the image should take up
 			// so that it can be scaled to fit these dimensions
-			int fitTiles = Config!.ScaleOption != BannerScaleOptions.ScaleToFit
-				? 1
-				: Config.BannerTiles;
+			int fitTiles = Config!.BannerTiles;
 
 			Vector2 position = new()
 			{
 				X = npc.homeTileX,
-				Y = npcHomeY + 2 + (fitTiles / 4) // what is wrong with the math
+				// + 2 here seems to work the best with Alignment.Center
+				// TODO: This should really be + 1 with Alignment.Top
+				Y = npcHomeY + 2
 			};
+
+			if (Config.ScaleOption == BannerScaleOptions.UseTileValues)
+			{
+				position.Y += fitTiles / 4; // where did this 4 come from?
+			}
 
 			var drawSize = bannerFrame.GetSourceRectangle(bannerTexture).Size();
 
@@ -170,17 +177,17 @@ public class NPCHousesMapLayer : ModMapLayer
 
 		void DetermineScale(float scale, out float normalScale, out float hoverScale)
 		{
-			float hoverFactor = Config!.HoverScale / Config.BannerScale;
+			float hoverFactor = Config!.HoverScale; // hover scale is used for both. I may regret this.
 			normalScale = Config.ScaleOption switch
 			{
 				BannerScaleOptions.UseScaleValues => Config.BannerScale,
-				BannerScaleOptions.ScaleToFit => scale * fitTiles / drawSize.Y,
+				BannerScaleOptions.UseTileValues => scale * fitTiles / drawSize.Y,
 				_ => Config.BannerScale,
 			};
 			hoverScale = Config.ScaleOption switch
 			{
 				BannerScaleOptions.UseScaleValues => Config.HoverScale,
-				BannerScaleOptions.ScaleToFit => hoverFactor * scale * fitTiles / drawSize.Y,
+				BannerScaleOptions.UseTileValues => hoverFactor * scale * fitTiles / drawSize.Y,
 				_ => Config.HoverScale,
 			};
 		}

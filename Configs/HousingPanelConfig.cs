@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Terraria.ModLoader.Config;
 using tModPorter;
+using static RemoteNPCHousing.Configs.ClientConfig;
 
 namespace RemoteNPCHousing.Configs;
 public enum PanelPositionOptions
@@ -15,23 +16,18 @@ public enum PanelPositionOptions
 	CustomOffset = 3,
 }
 
-public enum PanelDisplayOptions
-{
-	AlwaysShow = 0,
-	NeverShow = 1,
-	Toggled =  2,
-	Vanilla = 3, // if it was open in the inventory it should be open in the map
-}
-
 public class HousingPanelConfig
 {
 	[DrawTicks]
+	[BackgroundColor(BG_Nest2_R, BG_Nest2_G, BG_Nest2_B)]
 	public PanelPositionOptions PositionOption = PanelPositionOptions.MiniMapOpen;
 
 	// What is a reasonable range for this? at least 256
 	[Range(-500, 500)]
+	[BackgroundColor(BG_Nest2_R, BG_Nest2_G, BG_Nest2_B)]
 	public int VerticalOffset = 0;
 
+	[BackgroundColor(BG_Nest2_R, BG_Nest2_G, BG_Nest2_B)]
 	public bool SyncWithInventory = true; // if it was open in the map open it in the inventory (is this even possible/useful?)
 
 	public int GetDefaultVerticalOffset(int old)
