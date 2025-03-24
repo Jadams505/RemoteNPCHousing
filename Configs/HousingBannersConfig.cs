@@ -29,19 +29,22 @@ public class HousingBannersConfig
 
 	[Range(0.25f, 2f)]
 	[Increment(0.25f)]
+	[DrawTicks]
 	[BackgroundColor(BG_Nest2_R, BG_Nest2_G, BG_Nest2_B)]
 	public float BannerScale = 1f;
 
-	// Used with the ScaleToFit option
+	// Used with the UseTileValues option
 	// This is how many map tiles the image should take up
 	// so that it can be scaled to fit these dimensions
 	// TODO: Dynamically determine so that it always fits, then add a multiplier or something
 	[Range(1, 16)]
+	[DrawTicks]
 	[BackgroundColor(BG_Nest2_R, BG_Nest2_G, BG_Nest2_B)]
 	public int BannerTiles = 4;
 
 	[Range(0.25f, 4f)]
 	[Increment(0.25f)]
+	[DrawTicks]
 	[BackgroundColor(BG_Nest2_R, BG_Nest2_G, BG_Nest2_B)]
 	public float HoverScale = 1.25f;
 

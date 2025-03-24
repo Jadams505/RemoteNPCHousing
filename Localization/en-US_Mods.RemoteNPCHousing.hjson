@@ -4,7 +4,7 @@ Configs: {
 
 		Enable: {
 			Label: Enable
-			Tooltip: ""
+			Tooltip: Whether or not to enable this mod's feaures
 		}
 
 		FullscreenMapOptions: {
@@ -38,7 +38,7 @@ Configs: {
 
 		HousingPanelOptions: {
 			Label: Housing Panel Options
-			Tooltip: ""
+			Tooltip:""
 		}
 	}
 
@@ -52,17 +52,25 @@ Configs: {
 
 		BannerScale: {
 			Label: Banner Scale
-			Tooltip: ""
+			Tooltip:
+				'''
+				A size multiplier for drawing the housing banners.
+				This makes the banners act more like traditional map icons"
+				'''
 		}
 
 		BannerTiles: {
 			Label: Banner Tiles
-			Tooltip: ""
+			Tooltip:
+				'''
+				How many map tiles the banner should take up
+				This makes the banners look more like vanilla, but hard to see when zoomed out far
+				'''
 		}
 
 		HoverScale: {
 			Label: Hover Scale
-			Tooltip: ""
+			Tooltip: A size multiplier for drawing housing banners when they are hovered
 		}
 
 		DisplayOptions: {
@@ -72,23 +80,32 @@ Configs: {
 
 		AllowHoverText: {
 			Label: Allow Hover Text
-			Tooltip: ""
+			Tooltip: Whether or not to show the hover text when hovering over the housing banners
 		}
 
 		AllowClickActions: {
 			Label: Allow Click Actions
-			Tooltip: ""
+			Tooltip: Whether or not you can click on the housing banners
 		}
 	}
 
 	BannerScaleOptions: {
-		Tooltip: ""
+		Tooltip:
+			'''
+			Use Scale Values: Uses 'Banner Scale' to configure the size for drawing banners
+			Use Tile Values: Uses 'Banner Tiles' to configure the size for drawing banners
+			'''
 		UseScaleValues.Label: Use Scale Values
 		UseTileValues.Label: Use Tile Values
 	}
 
 	BannerDisplayOptions: {
-		Tooltip: ""
+		Tooltip:
+			'''
+			Vanilla: The banners will display if the housing panel is open
+			Always Show: The banners will always display
+			Never Show: The banners will never display
+			'''
 		Vanilla.Label: Vanilla
 		AlwaysShow.Label: Always Show
 		NeverShow.Label: Never Show
@@ -99,37 +116,57 @@ Configs: {
 
 		DisplayOption: {
 			Label: Display Option
-			Tooltip: ""
+			Tooltip:
+				'''
+				Always Show: The housing icon will always appear
+				Never Show: The housing icon will never appear
+				'''
 		}
 
 		PositionOption: {
 			Label: Position Option
-			Tooltip: ""
+			Tooltip:
+				'''
+				Vanilla: The housing icon will appear in the same place as if opened in the inventory
+				Custom: The housing icon can will be positioned based on the X, Y positions below
+				'''
 		}
 
 		HousingIconX: {
 			Label: Housing Icon X
-			Tooltip: ""
+			Tooltip:
+				'''
+				Sets the horizontal position of the housing icon as a percentage of the screen width (0 = left, 1 = right)
+				You can move the housing icon by dragging it with right click
+				'''
 		}
 
 		HousingIconY: {
 			Label: Housing Icon Y
-			Tooltip: ""
+			Tooltip:
+				'''
+				Sets the vertical position of the housing icon as a percentage of the screen height (0 = top, 1 = bottom)
+				You can move the housing icon by dragging it with right click
+				'''
 		}
 
 		LockPosition: {
 			Label: Lock Position
-			Tooltip: ""
+			Tooltip: Whether or not the panel can be moved
 		}
 
 		Scale: {
 			Label: Scale
-			Tooltip: ""
+			Tooltip:
+				'''
+				A multiplier for how big to make the housing icon. 
+				Default: 1
+				'''
 		}
 
 		AllowHoverText: {
 			Label: Allow Hover Text
-			Tooltip: ""
+			Tooltip: Whether or not to show the hover text when hovering over the housing icon
 		}
 	}
 
@@ -160,12 +197,23 @@ Configs: {
 
 		VerticalOffset: {
 			Label: Vertical Offset
-			Tooltip: ""
+			Tooltip:
+				'''
+				The offset for where to place the housing panel. For example, Vanilla uses 256 if the mini-map is open. 
+				Lower values will make the panel appear closer to the bottom of the screen
+				'''
 		}
 	}
 
 	PanelDisplayOptions: {
-		Tooltip: ""
+		Tooltip:
+			'''
+			Enabled/Disabled: Always/Never show the housing panel
+			Remember: Remember the last state the panel was in and reopen it in that state
+			Vanilla: Open the housing panel to the same state it was in in the inventory
+			Vanilla If Enabled: Same as Vanilla, but only if housing was open in the inventory [Default]
+			Vanilla If Disabled: Same as Vanilla, but only if the housing was closed in the inventory
+			'''
 		Enabled.Label: Enabled
 		Disabled.Label: Disabled
 		Remember.Label: Remember
@@ -175,7 +223,13 @@ Configs: {
 	}
 
 	PanelPositionOptions: {
-		Tooltip: ""
+		Tooltip:
+			'''
+			Vanilla: The housing panel will appear in the same place as if opened in the inventory
+			Mini Map Open: The housing panel will appear in the same place as if the mini-map were open
+			Mini Map Closed: The housing panel will appear in the same place as if the mini-map were closed
+			Custom Offset: The housing panel will appear based on the vertical offset below
+			'''
 		Vanilla.Label: Vanilla
 		MiniMapOpen.Label: Mini Map Open
 		MiniMapClosed.Label: Mini Map Closed
