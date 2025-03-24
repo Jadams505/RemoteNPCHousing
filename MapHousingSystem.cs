@@ -84,6 +84,10 @@ public class MapHousingSystem : ModSystem
 			if (IsHousingOpen)
 			{
 				ChangeMapHeightFromConfig(out int oldValue);
+				// this is normally set by DrawInventory()
+				// ss far as I know it is always 0.85f when calling DrawNPCHousesInUI() 
+				// TODO: configure
+				Main.inventoryScale = 0.85f; 
 				Main_DrawNPCHousesInUI(Main.instance);
 				Main_mH(Main.instance) = oldValue;
 

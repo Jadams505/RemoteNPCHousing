@@ -38,7 +38,7 @@ Configs: {
 
 		HousingPanelOptions: {
 			Label: Housing Panel Options
-			Tooltip:""
+			Tooltip: ""
 		}
 	}
 
