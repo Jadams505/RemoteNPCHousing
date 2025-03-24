@@ -1,5 +1,7 @@
 global using Microsoft.Xna.Framework;
 using MonoMod.Cil;
+using RemoteNPCHousing.Networking;
+using System.IO;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -8,9 +10,16 @@ namespace RemoteNPCHousing
 	// Please read https://github.com/tModLoader/tModLoader/wiki/Basic-tModLoader-Modding-Guide#mod-skeleton-contents for more information about the various files in a mod.
 	public class RemoteNPCHousing : Mod
 	{
+		public static RemoteNPCHousing Instance => ModContent.GetInstance<RemoteNPCHousing>();
+
 		public override void Load()
 		{
 			IL_Main.DoDraw += IL_Main_DoDraw;
+		}
+
+		public override void HandlePacket(BinaryReader reader, int whoAmI)
+		{
+			NetworkHandler.HandlePackets(reader, whoAmI);
 		}
 
 		private void IL_Main_DoDraw(ILContext il)

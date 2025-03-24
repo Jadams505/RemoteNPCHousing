@@ -156,13 +156,13 @@ public class MapHousingSystem : ModSystem
 		if (Main.mouseLeft && Main.mouseLeftRelease)
 		{
 			// Values taken from Main.DrawMap()
-			float mapScale = Main.mapFullscreenScale; // num5
+			float mapScale = Main.mapFullscreenScale / Main.UIScale; // num5
 			Vector2 mapOffset = new(10, 10); // num7, num8
 			Vector2 mapPos = Main.mapFullscreenPos * mapScale; // num24, num25
 			Vector2 topLeftOfMap = (Main.ScreenSize / new Point(2, 2)).ToVector2() - mapPos;
-			Vector2 zoomedTopLeftOfMap = topLeftOfMap + mapOffset * mapScale; // num, num2
+			Vector2 innerTopLeftOfMap = topLeftOfMap + mapOffset * mapScale; // num, num2
 
-			Point tilePos = ((Main.MouseScreen - zoomedTopLeftOfMap) / mapScale + mapOffset).ToPoint();
+			Point tilePos = ((Main.MouseScreen - innerTopLeftOfMap) / mapScale + mapOffset).ToPoint();
 
 			if (main.mouseNPCType == 0)
 			{

@@ -2,4 +2,4 @@ displayName = World Map NPC Housing
 author = Jadams
 version = 0.1
 homepage = https://github.com/Jadams505/RemoteNPCHousing
-side = Client
+side = Both

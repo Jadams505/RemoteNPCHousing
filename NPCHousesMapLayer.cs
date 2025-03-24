@@ -1,5 +1,6 @@
 ﻿using Microsoft.Xna.Framework.Graphics;
 using RemoteNPCHousing.Configs;
+using RemoteNPCHousing.Networking;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -76,6 +77,15 @@ public class NPCHousesMapLayer : ModMapLayer
 			// so the banner looks like it is hanging from the roof
 			do
 			{
+				// Tiles are not constantly synced in multiplayer, so in order to know where to place the banner
+				// you have to ask the server. An alternative would be to just use npcHome, but that's kind of ugly
+				if (Main.netMode == NetmodeID.MultiplayerClient && !Main.sectionManager.TileLoaded(npcHomeX, npcHomeY))
+				{
+					int sectionX = Netplay.GetSectionX(npcHomeX);
+					int sectionY = Netplay.GetSectionY(npcHomeY);
+					NetworkHandler.SendToServer(new MapSectionPacket(sectionX, sectionY), Main.LocalPlayer.whoAmI);
+				}
+
 				npcHomeY--;
 				if (npcHomeY < 10) break;
 			} while (!Main.tile[npcHomeX, npcHomeY].HasTile || !Main.tileSolid[Main.tile[npcHomeX, npcHomeY].TileType]);
