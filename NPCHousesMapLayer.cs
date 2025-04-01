@@ -22,7 +22,6 @@ public class NPCHousesMapLayer : ModMapLayer
 {
 	public static HousingBannersConfig? Config => ClientConfig.Instance.GetRelevantConfig();
 
-	// Should I be changing Visible instead?
 	public static bool ShouldDraw()
 	{
 		if (Config is null) return false;
@@ -43,7 +42,8 @@ public class NPCHousesMapLayer : ModMapLayer
 	// Re-implementation of Main.DrawNPCHousesInWorld()
 	public override void Draw(ref MapOverlayDrawContext context, ref string text)
 	{
-		if (!ShouldDraw()) return;
+		// not needed uses Hide() instead
+		// if (!ShouldDraw()) return;
 
 		List<int> npcsWithBanners = [];
 		List<int> occupantBanners = [];
@@ -62,16 +62,6 @@ public class NPCHousesMapLayer : ModMapLayer
 			int npcHomeY = npc.homeTileY; // num3
 			int npcHomeX = npc.homeTileX;
 			WorldGen.TownManager.AddOccupantsToList(npc.homeTileX, npc.homeTileY, occupantBanners);
-
-			/*
-			int roomateCount = 0;
-			for (int j = i + 1; j < npcsWithBanners.Count; ++j)
-			{
-				var roomate = Main.npc[npcsWithBanners[j]];
-				if (roomate.homeTileX == npc.homeTileX && roomate.homeTileY == npc.homeTileY)
-					roomateCount++;
-			}
-			*/
 
 			// move the banner up until it finds the top of the house
 			// so the banner looks like it is hanging from the roof

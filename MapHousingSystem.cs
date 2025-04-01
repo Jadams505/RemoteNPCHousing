@@ -19,22 +19,30 @@ public class MapHousingSystem : ModSystem
 {
 	public static MapHousingSystem Instance => ModContent.GetInstance<MapHousingSystem>();
 
+	// this map layer is used simply for compatability with visible
+	private static NPCPanelMapLayer MapLayer => ModContent.GetInstance<NPCPanelMapLayer>();
+
 	private GameTime _lastUpdateTime = null!;
 	private UserInterface _interface = null!;
 	private UIState _state = null!;
 	private UIHousingIcon _housingToggle = null!;
 
 	/// <summary>
-	/// Determines if anything at all should be drawn
+	/// Determines the minimum requirement to be drawn. MapLayer.Hide() is called if this is not true.
 	/// </summary>
-	public bool IsUIEnabled => Main.mapFullscreen && ClientConfig.Instance.Enable;
+	public bool CanUIBeEnabled => Main.mapFullscreen && ClientConfig.Instance.Enable;
 
-	private bool _mapFullscreenCache = false;
+	/// <summary>
+	/// Determines if anything at all should be drawn based on the MapLayer visibility
+	/// </summary>
+	public bool IsUIEnabled => MapLayer.Visible && CanUIBeEnabled;
 
 	/// <summary>
 	/// Determines if the housing UI is open and housing banners should be drawn
 	/// </summary>
 	public bool IsHousingOpen => _housingToggle.IsOpen;
+
+	private bool _mapFullscreenCache = false;
 
 	public override void Load()
 	{
@@ -60,22 +68,34 @@ public class MapHousingSystem : ModSystem
 	{
 		bool mapJustOpened = !_mapFullscreenCache && Main.mapFullscreen;
 		_mapFullscreenCache = Main.mapFullscreen;
+		if (mapJustOpened)
+		{
+			var panelConfig = ClientConfig.Instance.FullscreenMapOptions.HousingPanelOptions;
+			_housingToggle.IsOpen = panelConfig.GetInitialDisplay(_housingToggle.IsOpen, Main.EquipPage == 1);
+		}
+
 		if (IsUIEnabled)
 		{
 			_lastUpdateTime = gameTime;
+			
+			_interface?.Update(gameTime);
+		}
+	}
+
+	// Main.mapFullscreen should always be true when this is called
+	public void Draw(ref string mouseText)
+	{
+		bool mapJustOpened = !_mapFullscreenCache && Main.mapFullscreen;
+		_mapFullscreenCache = Main.mapFullscreen;
+
+		if (IsUIEnabled)
+		{
+			// prevents a 1 frame draw glitch. TODO: figure out the order of operations between Update and Draw to avoid redundancy
 			if (mapJustOpened)
 			{
 				var panelConfig = ClientConfig.Instance.FullscreenMapOptions.HousingPanelOptions;
 				_housingToggle.IsOpen = panelConfig.GetInitialDisplay(_housingToggle.IsOpen, Main.EquipPage == 1);
 			}
-			_interface?.Update(gameTime);
-		}
-	}
-
-	public void Draw(ref string mouseText)
-	{
-		if (IsUIEnabled)
-		{
 			_interface?.Draw(Main.spriteBatch, _lastUpdateTime);
 			if (_housingToggle.IsMouseHovering && UIConfiguredHousingIcon.Config.AllowHoverText && _housingToggle.Enabled)
 			{
@@ -103,6 +123,15 @@ public class MapHousingSystem : ModSystem
 		old = Main_mH(Main.instance);
 		int height = config.GetDefaultVerticalOffset(old);
 		Main_mH(Main.instance) = height; 
+	}
+
+	public override void PreDrawMapIconOverlay(IReadOnlyList<IMapLayer> layers, MapOverlayDrawContext mapOverlayDrawContext)
+	{
+		foreach (var layer in layers)
+		{
+			if (layer == ModContent.GetInstance<NPCHousesMapLayer>() && !NPCHousesMapLayer.ShouldDraw()) layer.Hide();
+			if (layer == ModContent.GetInstance<NPCPanelMapLayer>() && !CanUIBeEnabled) layer.Hide();
+		}
 	}
 
 	public override void PostDrawFullscreenMap(ref string mouseText)
