@@ -1,5 +1,6 @@
 global using Microsoft.Xna.Framework;
 using MonoMod.Cil;
+using RemoteNPCHousing.Configs;
 using RemoteNPCHousing.Networking;
 using System.IO;
 using Terraria;
@@ -13,12 +14,21 @@ namespace RemoteNPCHousing
 	{
 		public static RemoteNPCHousing Instance => ModContent.GetInstance<RemoteNPCHousing>();
 
+		public static void DebugText(object text, Color color)
+		{
+			if (ClientConfig.Instance.DebugMode)
+				Main.NewText(text, color);
+		}
+
+		public static void DebugText(object text) => DebugText(text, Color.Red);
+
 		public override void Load()
 		{
 			IL_Main.DoDraw += IL_Main_DoDraw;
 			On_WorldGen.CheckRoom += On_WorldGen_CheckRoom;
 		}
 
+		// TODO: is this needed anymode?
 		private void On_WorldGen_CheckRoom(On_WorldGen.orig_CheckRoom orig, int x, int y)
 		{
 			// Main.sectionManager does not exist on the server

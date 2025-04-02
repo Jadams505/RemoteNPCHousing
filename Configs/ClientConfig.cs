@@ -24,6 +24,9 @@ public class ClientConfig : ModConfig
 	[DefaultValue(true)]
 	public bool Enable;
 
+	[DefaultValue(false)]
+	public bool DebugMode;
+
 	[Expand(false)]
 	public FullscreenMapConfig FullscreenMapOptions = new();
 

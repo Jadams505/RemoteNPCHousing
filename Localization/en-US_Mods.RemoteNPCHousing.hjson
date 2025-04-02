@@ -21,6 +21,11 @@ Configs: {
 			Label: Overlay Map Options
 			Tooltip: ""
 		}
+
+		DebugMode: {
+			Label: Debug Mode
+			Tooltip: ""
+		}
 	}
 
 	FullscreenMapConfig: {

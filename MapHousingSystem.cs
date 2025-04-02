@@ -3,6 +3,7 @@ using RemoteNPCHousing.Configs;
 using RemoteNPCHousing.Networking;
 using RemoteNPCHousing.UI;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.CompilerServices;
@@ -201,88 +202,37 @@ public class MapHousingSystem : ModSystem
 			if (tilePos.Y < 0 || tilePos.Y >= Main.maxTilesY) return;
 
 			HousingQuery query = new(tilePos.X, tilePos.Y, Main.instance.mouseNPCType, Main.instance.mouseNPCIndex);
-			Main.LocalPlayer.GetModPlayer<MapPlayer>().CurrentQuery = query;
-			query.SendToServer();
 
-			//if (main.mouseNPCType == 0)
-			//{
-			//	if (MoveTownNPCWithSectionCheck(tilePos.X, tilePos.Y, -1))
-			//	{
-			//		Main.NewText(Lang.inter[39].Value, byte.MaxValue, 240, 20);
-			//	}
-			//}
-
-			//else if (main.mouseNPCIndex >= 0)
-			//{
-			//	int cachedIndex = main.mouseNPCIndex;
-			//	if (MoveTownNPCWithSectionCheck(tilePos.X, tilePos.Y, cachedIndex))
-			//	{
-			//		main.SetMouseNPC(-1, -1); // does this need to be called first?
-			//		WorldGen.moveRoom(tilePos.X, tilePos.Y, cachedIndex);
-			//		SoundEngine.PlaySound(SoundID.MenuTick);
-			//	}
-			//}
+			// In single player there is no need to have any delay in the query since all map sections are loaded
+			if (Main.netMode == NetmodeID.SinglePlayer)
+			{
+				query.FullilledCallback();
+				return;
+			}
+			
+			SendHousingQuery(query);
 		}
 	}
 
-	public static bool MoveTownNPCWithSectionCheck(int x, int y, int npcIndex)
+	public static void SendHousingQuery(HousingQuery query)
 	{
-		if (!Main.sectionManager.TileLoaded(x, y))
-		{
-			if (!ServerConfig.Instance.LoadLoadQueriedChunks)
-			{
-				// TODO: localize
-				string text = "This tile is too far away and not loaded!";
-				Main.NewText(text, byte.MaxValue, 240, 20);
-				return false;
-			}
-
-			LoadTileSections(x, y, radius: 2);
-		}
-
-		if (!Main.Map.IsRevealed(x, y))
+		if (!Main.Map.IsRevealed(query.X, query.Y))
 		{
 			string text = "This tile is not revealed!";
 			Main.NewText(text, byte.MaxValue, 240, 20);
-			return false;
+			return;
 		}
 
-		return WorldGen.MoveTownNPC(x, y, npcIndex);
-	}
-
-	public static void RevealTileSections(int tileX, int tileY, int radius, bool requireLoaded = false)
-	{
-		for (int i = -radius; i <= radius; ++i)
+		if (!Main.sectionManager.TileLoaded(query.X, query.Y) && !ServerConfig.Instance.LoadLoadQueriedChunks)
 		{
-			for (int j = -radius; j <= radius; ++j)
-			{
-				int x = (tileX + radius) * Main.sectionWidth;
-				int y = (tileY + radius) * Main.sectionHeight;
-
-				if (requireLoaded && !Main.sectionManager.TileLoaded(x, y)) continue;
-				RevealTileSection(x, y);
-			}
+			// TODO: localize
+			string text = "This tile is too far away and not loaded!";
+			Main.NewText(text, byte.MaxValue, 240, 20);
+			return;
 		}
-	}
 
-	public static void RevealTileSection(int tileX, int tileY)
-	{
-		int x = Netplay.GetSectionX(tileX) * Main.sectionWidth;
-		int y = Netplay.GetSectionY(tileY) * Main.sectionHeight;
-
-		for (int i = 0; i < Main.sectionWidth; ++i)
-		{
-			for (int j = 0; j < Main.sectionHeight; ++j)
-			{
-				int innerX = x + i;
-				int innerY = y + j;
-				if (innerX < 0 || innerX > Main.Map.MaxWidth)
-					continue;
-				if (innerY < 0 || innerY > Main.Map.MaxHeight)
-					continue;
-				Main.Map.UpdateLighting(innerX, innerY, byte.MaxValue);
-			}
-		}
+		Main.LocalPlayer.GetModPlayer<MapPlayer>().CurrentQuery = query;
+		query.SendToServer();
 	}
 
 	public static void LoadTileSections(int tileX, int tileY, int radius)
@@ -307,144 +257,4 @@ public class MapHousingSystem : ModSystem
 
 		NetworkHandler.SendToServer(MapSectionPacket.FromTile(tileX, tileY), Main.LocalPlayer.whoAmI);
 	}
-
-	public static bool AnyTileRevealedInTileSection(int tileX, int tileY)
-	{
-		int x = Netplay.GetSectionX(tileX) * Main.sectionWidth;
-		int y = Netplay.GetSectionY(tileY) * Main.sectionHeight;
-
-		for (int i = 0; i < Main.sectionWidth; ++i)
-		{
-			for (int j = 0; j < Main.sectionHeight; ++j)
-			{
-				int innerX = x + i;
-				int innerY = y + j;
-				if (innerX < 0 || innerX > Main.Map.MaxWidth) 
-					continue;
-				if (innerY < 0 || innerY > Main.Map.MaxHeight) 
-					continue;
-				if (Main.Map.IsRevealed(innerX, innerY)) return true;
-			}
-		}
-		return false;
-	}
-
-	public static bool AllTilesRevealedInTileSection(int tileX, int tileY)
-	{
-		int x = Netplay.GetSectionX(tileX) * Main.sectionWidth;
-		int y = Netplay.GetSectionY(tileY) * Main.sectionHeight;
-
-		for (int i = 0; i < Main.sectionWidth; ++i)
-		{
-			for (int j = 0; j < Main.sectionHeight; ++j)
-			{
-				int innerX = x + i;
-				int innerY = y + j;
-				if (innerX < 0 || innerX > Main.Map.MaxWidth)
-					continue;
-				if (innerY < 0 || innerY > Main.Map.MaxHeight)
-					continue;
-				if (!Main.Map.IsRevealed(innerX, innerY)) return false;
-			}
-		}
-		return true;
-	}
-}
-
-public record HousingQuery(int X, int Y, int MouseNPCType, int MouseNPCIndex)
-{
-	public int Radius { get; } = 2;
-	public Rectangle RequestedArea => new()
-	{
-		X = Math.Max((Netplay.GetSectionX(X) - Radius), 0) * Main.sectionWidth,
-		Y = Math.Max((Netplay.GetSectionY(Y) - Radius), 0) * Main.sectionHeight,
-		Width = Main.sectionWidth * (2 * Radius + 1),
-		Height = Main.sectionHeight * (2 * Radius + 1),
-	};
-
-	private uint _startTime;
-	private uint _waitTime = 60;
-
-	public void SendToServer()
-	{
-		MapHousingSystem.LoadTileSections(X, Y, Radius);
-		_startTime = Main.GameUpdateCount;
-		Sent = true;
-	}
-
-	public bool Invoke()
-	{
-		if (Expired || Fulfilled)
-		{
-			FullilledCallback();
-			return true;
-		}
-		return false;
-	}
-
-	public void FullilledCallback()
-	{
-		Main.NewText($"Took {Main.GameUpdateCount - _startTime} ticks to fullfil");
-
-		if (Main.instance.mouseNPCType != MouseNPCType)
-		{
-			Main.NewText("mouseNPCTypes do not match housing query aborted");
-			return;
-		}
-
-		if (Main.instance.mouseNPCIndex != MouseNPCIndex)
-		{
-			Main.NewText("mouseNPCIndexes do not match housing query aborted");
-			return;
-		}
-
-		if (MouseNPCType == 0)
-		{
-			if (WorldGen.MoveTownNPC(X, Y, -1))
-			{
-				Main.NewText(Lang.inter[39].Value, byte.MaxValue, 240, 20);
-			}
-		}
-
-		else if (MouseNPCIndex >= 0)
-		{
-			if (WorldGen.MoveTownNPC(X, Y, MouseNPCIndex))
-			{
-				Main.instance.SetMouseNPC(-1, -1); // does this need to be called first?
-				WorldGen.moveRoom(X, Y, MouseNPCIndex);
-				SoundEngine.PlaySound(SoundID.MenuTick);
-			}
-		}
-	}
-
-	public bool TileLoaded(int x, int y)
-	{
-		if (!WorldGen.InWorld(x, y)) return true;
-		return Main.sectionManager.TileLoaded(x, y); ;
-	}
-
-	public bool TilesLoaded()
-	{
-		int sectionX = Netplay.GetSectionX(X);
-		int sectionY = Netplay.GetSectionY(Y);
-
-		for (int i = -Radius; i <= Radius; ++i)
-		{
-			for (int j = -Radius; j <= Radius; ++j)
-			{
-				int x = (sectionX + i) * Main.sectionWidth;
-				int y = (sectionY + j) * Main.sectionHeight;
-				bool loaded = TileLoaded(x, y);
-				if (!loaded) return false;
-			}
-		}
-
-		return true;
-	}
-
-	public bool Fulfilled => false && TilesLoaded();
-
-	public bool Expired => Main.GameUpdateCount - _startTime > _waitTime;
-
-	public bool Sent { get; private set; }
 }
