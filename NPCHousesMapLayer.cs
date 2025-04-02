@@ -39,13 +39,23 @@ public class NPCHousesMapLayer : ModMapLayer
 		return false;
 	}
 
+	public static IEnumerable<int> NpcsWithBanners()
+	{
+		for (int i = 0; i < Main.maxNPCs; ++i)
+		{
+			var npc = Main.npc[i];
+			if (npc.active && npc.townNPC && !npc.homeless && npc.homeTileX > 0 && npc.homeTileY > 0 && npc.type != 37)
+				yield return i;
+		}
+	}
+
 	// Re-implementation of Main.DrawNPCHousesInWorld()
 	public override void Draw(ref MapOverlayDrawContext context, ref string text)
 	{
 		// not needed uses Hide() instead
 		// if (!ShouldDraw()) return;
 
-		List<int> npcsWithBanners = [];
+		List<int> npcsWithBanners = NpcsWithBanners().ToList();
 		List<int> occupantBanners = [];
 		for (int i = 0; i < Main.maxNPCs; ++i)
 		{
@@ -63,19 +73,20 @@ public class NPCHousesMapLayer : ModMapLayer
 			int npcHomeX = npc.homeTileX;
 			WorldGen.TownManager.AddOccupantsToList(npc.homeTileX, npc.homeTileY, occupantBanners);
 
+			bool anyUnloadedTiles = false;
 			// move the banner up until it finds the top of the house
 			// so the banner looks like it is hanging from the roof
 			do
 			{
-				// Tiles are not constantly synced in multiplayer, so in order to know where to place the banner
-				// you have to ask the server. An alternative would be to just use npcHome, but that's kind of ugly
-				if (Main.netMode == NetmodeID.MultiplayerClient && !Main.sectionManager.TileLoaded(npcHomeX, npcHomeY))
-				{
-					NetworkHandler.SendToServer(MapSectionPacket.FromTile(npcHomeX, npcHomeY), Main.LocalPlayer.whoAmI);
-				}
-
 				npcHomeY--;
 				if (npcHomeY < 10) break;
+
+				// if any tiles are unloaded then the banner placement will not be correct
+				if (!Main.sectionManager.TileLoaded(npcHomeX, npcHomeY))
+				{
+					anyUnloadedTiles = true;
+					break;
+				}
 			} while (!Main.tile[npcHomeX, npcHomeY].HasTile || !Main.tileSolid[Main.tile[npcHomeX, npcHomeY].TileType]);
 
 			var bannerTexture = TextureAssets.HouseBanner.Value;
@@ -99,6 +110,13 @@ public class NPCHousesMapLayer : ModMapLayer
 				// TODO: This should really be + 1 with Alignment.Top
 				Y = npcHomeY + 2
 			};
+
+			// defaulting to using the actual home position will prevent banners from being at the top of the map
+			// TODO: Should this be before/after UseTileValues?
+			if (anyUnloadedTiles)
+			{
+				position.Y = npc.homeTileY;
+			}
 
 			if (Config.ScaleOption == BannerScaleOptions.UseTileValues)
 			{
