@@ -71,9 +71,7 @@ public class NPCHousesMapLayer : ModMapLayer
 				// you have to ask the server. An alternative would be to just use npcHome, but that's kind of ugly
 				if (Main.netMode == NetmodeID.MultiplayerClient && !Main.sectionManager.TileLoaded(npcHomeX, npcHomeY))
 				{
-					int sectionX = Netplay.GetSectionX(npcHomeX);
-					int sectionY = Netplay.GetSectionY(npcHomeY);
-					NetworkHandler.SendToServer(new MapSectionPacket(sectionX, sectionY), Main.LocalPlayer.whoAmI);
+					NetworkHandler.SendToServer(MapSectionPacket.FromTile(npcHomeX, npcHomeY), Main.LocalPlayer.whoAmI);
 				}
 
 				npcHomeY--;

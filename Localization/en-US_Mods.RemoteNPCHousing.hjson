@@ -253,4 +253,18 @@ Configs: {
 			Tooltip: ""
 		}
 	}
+
+	ServerConfig: {
+		DisplayName: Server Config
+
+		LoadLoadQueriedChunks: {
+			Label: Load Load Queried Chunks
+			Tooltip: ""
+		}
+
+		LoadNPCHomeChunks: {
+			Label: Load N P C Home Chunks
+			Tooltip: ""
+		}
+	}
 }
