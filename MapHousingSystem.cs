@@ -202,11 +202,12 @@ public class MapHousingSystem : ModSystem
 			if (tilePos.Y < 0 || tilePos.Y >= Main.maxTilesY) return;
 
 			HousingQuery query = new(tilePos.X, tilePos.Y, Main.instance.mouseNPCType, Main.instance.mouseNPCIndex);
+			query.Start();
 
 			// In single player there is no need to have any delay in the query since all map sections are loaded
 			if (Main.netMode == NetmodeID.SinglePlayer)
 			{
-				query.FullilledCallback();
+				query.End();
 				return;
 			}
 			
@@ -223,7 +224,7 @@ public class MapHousingSystem : ModSystem
 			return;
 		}
 
-		if (!Main.sectionManager.TileLoaded(query.X, query.Y) && !ServerConfig.Instance.LoadLoadQueriedChunks)
+		if (!Main.sectionManager.TileLoaded(query.X, query.Y) && !ServerConfig.Instance.LoadQueriedChunks)
 		{
 			// TODO: localize
 			string text = "This tile is too far away and not loaded!";

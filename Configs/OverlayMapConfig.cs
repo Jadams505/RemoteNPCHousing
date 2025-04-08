@@ -11,7 +11,10 @@ public class OverlayMapConfig
 {
 	[Expand(true)]
 	[BackgroundColor(BG_Nest1_R, BG_Nest1_G, BG_Nest1_B)]
-	public HousingBannersConfig OverlayMapBannersOptions = new();
+	public HousingBannersConfig OverlayMapBannersOptions = new()
+	{
+		DisplayOptions = BannerDisplayOptions.NeverShow, // disable in overlay by default
+	};
 
 	public override bool Equals(object? obj)
 	{

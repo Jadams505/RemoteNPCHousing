@@ -25,6 +25,10 @@ public class HousingBannersConfig
 {
 	[DrawTicks]
 	[BackgroundColor(BG_Nest2_R, BG_Nest2_G, BG_Nest2_B)]
+	public BannerDisplayOptions DisplayOptions = BannerDisplayOptions.Vanilla;
+
+	[DrawTicks]
+	[BackgroundColor(BG_Nest2_R, BG_Nest2_G, BG_Nest2_B)]
 	public BannerScaleOptions ScaleOption = BannerScaleOptions.UseScaleValues;
 
 	[Range(0.25f, 2f)]
@@ -40,17 +44,13 @@ public class HousingBannersConfig
 	[Range(1, 16)]
 	[DrawTicks]
 	[BackgroundColor(BG_Nest2_R, BG_Nest2_G, BG_Nest2_B)]
-	public int BannerTiles = 4;
+	public int BannerTiles = 2;
 
 	[Range(0.25f, 4f)]
 	[Increment(0.25f)]
 	[DrawTicks]
 	[BackgroundColor(BG_Nest2_R, BG_Nest2_G, BG_Nest2_B)]
 	public float HoverScale = 1.25f;
-
-	[DrawTicks]
-	[BackgroundColor(BG_Nest2_R, BG_Nest2_G, BG_Nest2_B)]
-	public BannerDisplayOptions DisplayOptions = BannerDisplayOptions.Vanilla;
 
 	[BackgroundColor(BG_Nest2_R, BG_Nest2_G, BG_Nest2_B)]
 	public bool AllowHoverText = true;

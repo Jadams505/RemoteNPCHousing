@@ -24,7 +24,11 @@ Configs: {
 
 		DebugMode: {
 			Label: Debug Mode
-			Tooltip: ""
+			Tooltip:
+				'''
+				This will print message in chat that are useful for fixing issues.
+				If you encounter any issues please enable this and report what is says. 
+				'''
 		}
 	}
 
@@ -215,16 +219,14 @@ Configs: {
 			'''
 			Enabled/Disabled: Always/Never show the housing panel
 			Remember: Remember the last state the panel was in and reopen it in that state
-			Vanilla: Open the housing panel to the same state it was in in the inventory
-			Vanilla If Enabled: Same as Vanilla, but only if housing was open in the inventory [Default]
-			Vanilla If Disabled: Same as Vanilla, but only if the housing was closed in the inventory
+			Vanilla: Open the housing panel to the same state it was in the inventory
+			Smart: Same as Remember, but will enable itself if it was open in the inventory [Default]
 			'''
 		Enabled.Label: Enabled
 		Disabled.Label: Disabled
 		Remember.Label: Remember
 		Vanilla.Label: Vanilla
-		VanillaIfEnabled.Label: Vanilla If Enabled
-		VanillaIfDisabled.Label: Vanilla If Disabled
+		Smart.Label: Smart
 	}
 
 	PanelPositionOptions: {
@@ -262,14 +264,23 @@ Configs: {
 	ServerConfig: {
 		DisplayName: Server Config
 
-		LoadLoadQueriedChunks: {
-			Label: Load Load Queried Chunks
-			Tooltip: ""
+		LoadQueriedChunks: {
+			Label: Load Queried Chunks
+			Tooltip:
+				'''
+				Automatically loads the chunks around a map tile when it's queried. 
+				This ensures the query is accurate. 
+				Disable this if you experience lag when querying the map.
+				'''
 		}
 
 		LoadNPCHomeChunks: {
-			Label: Load N P C Home Chunks
-			Tooltip: ""
+			Label: Load NPC Home Chunks
+			Tooltip:
+				'''
+				Keeps the chunks where NPCs live loaded at all times.
+				Without this, NPC banners may not appear in the correct locations.
+				'''
 		}
 	}
 }

@@ -17,7 +17,7 @@ namespace RemoteNPCHousing
 		public static void DebugText(object text, Color color)
 		{
 			if (ClientConfig.Instance.DebugMode)
-				Main.NewText(text, color);
+				Main.NewText($"{Instance.DisplayNameClean}: " + text, color);
 		}
 
 		public static void DebugText(object text) => DebugText(text, Color.Red);

@@ -18,10 +18,11 @@ public record HousingQuery(int X, int Y, int MouseNPCType, int MouseNPCIndex)
 
 	public bool Sent { get; private set; }
 
+	public void Start() => _startTime = Main.GameUpdateCount;
+
 	public void SendToServer()
 	{
 		MapHousingSystem.LoadTileSections(X, Y, Radius);
-		_startTime = Main.GameUpdateCount;
 		Sent = true;
 	}
 
@@ -29,13 +30,13 @@ public record HousingQuery(int X, int Y, int MouseNPCType, int MouseNPCIndex)
 	{
 		if (Expired || Fulfilled)
 		{
-			FullilledCallback();
+			End();
 			return true;
 		}
 		return false;
 	}
 
-	public void FullilledCallback()
+	public void End()
 	{
 		RemoteNPCHousing.DebugText($"Took {Main.GameUpdateCount - _startTime} ticks to fullfil.");
 

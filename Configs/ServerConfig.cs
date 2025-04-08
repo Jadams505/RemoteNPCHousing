@@ -17,7 +17,7 @@ public class ServerConfig : ModConfig
 
 	// Load map sections when querying an NPC, must be revealed
 	[DefaultValue(true)]
-	public bool LoadLoadQueriedChunks;
+	public bool LoadQueriedChunks;
 
 	// Keep sections loaded that contain housed NPCs, must be revealed
 	[DefaultValue(true)]
