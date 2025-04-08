@@ -57,12 +57,6 @@ public class NPCHousesMapLayer : ModMapLayer
 
 		List<int> npcsWithBanners = NpcsWithBanners().ToList();
 		List<int> occupantBanners = [];
-		for (int i = 0; i < Main.maxNPCs; ++i)
-		{
-			var npc = Main.npc[i];
-			if (npc.active && npc.townNPC && !npc.homeless && npc.homeTileX > 0 && npc.homeTileY > 0 && npc.type != 37)
-				npcsWithBanners.Add(i);
-		}
 
 		npcsWithBanners.Sort((a, b) => -Main.npc[a].housingCategory.CompareTo(Main.npc[b].housingCategory));
 		for (int i = 0; i < npcsWithBanners.Count; ++i)
@@ -72,6 +66,17 @@ public class NPCHousesMapLayer : ModMapLayer
 			int npcHomeY = npc.homeTileY; // num3
 			int npcHomeX = npc.homeTileX;
 			WorldGen.TownManager.AddOccupantsToList(npc.homeTileX, npc.homeTileY, occupantBanners);
+
+			// roommates is a unused feature in vanilla which allows banners to show up on top of each other
+			// The Roommates mod (https://steamcommunity.com/sharedfiles/filedetails/?id=3168223097) exposes this feature so this is necessary
+			// for compatibility with that mod
+			int roomateCount = 0;
+			for (int num5 = npcsWithBanners.Count - 1; num5 > i; num5--)
+			{
+				var roomate = Main.npc[npcsWithBanners[num5]];
+				if (roomate.homeTileX == npcHomeX && roomate.homeTileY == npcHomeY)
+					roomateCount++;
+			}
 
 			bool anyUnloadedTiles = false;
 			// move the banner up until it finds the top of the house
@@ -121,6 +126,11 @@ public class NPCHousesMapLayer : ModMapLayer
 			if (Config.ScaleOption == BannerScaleOptions.UseTileValues)
 			{
 				position.Y += fitTiles / 4; // where did this 4 come from?
+				position.Y += roomateCount * 11.5f * fitTiles / 16f; // why 11.5?
+			}
+			else
+			{
+				position.Y += roomateCount * .95f;
 			}
 
 			var drawSize = bannerFrame.GetSourceRectangle(bannerTexture).Size();
