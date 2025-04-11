@@ -1,21 +1,14 @@
-﻿using Microsoft.Xna.Framework.Graphics;
-using RemoteNPCHousing.Configs;
-using RemoteNPCHousing.Networking;
+﻿using RemoteNPCHousing.Configs;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria;
 using Terraria.Audio;
 using Terraria.DataStructures;
 using Terraria.GameContent;
-using Terraria.GameInput;
 using Terraria.ID;
 using Terraria.Map;
 using Terraria.ModLoader;
 using Terraria.UI;
-using Terraria.UI.Gamepad;
 
 namespace RemoteNPCHousing;
 public class NPCHousesMapLayer : ModMapLayer

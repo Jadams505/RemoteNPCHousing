@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Terraria.ModLoader.Config;
-using tModPorter;
 using static RemoteNPCHousing.Configs.ClientConfig;
 
 namespace RemoteNPCHousing.Configs;

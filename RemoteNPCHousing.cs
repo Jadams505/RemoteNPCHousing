@@ -4,7 +4,6 @@ using RemoteNPCHousing.Configs;
 using RemoteNPCHousing.Networking;
 using System.IO;
 using Terraria;
-using Terraria.ID;
 using Terraria.ModLoader;
 
 namespace RemoteNPCHousing

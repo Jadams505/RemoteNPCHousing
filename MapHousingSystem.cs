@@ -2,10 +2,7 @@
 using RemoteNPCHousing.Configs;
 using RemoteNPCHousing.Networking;
 using RemoteNPCHousing.UI;
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.IO;
 using System.Runtime.CompilerServices;
 using Terraria;
 using Terraria.Audio;
@@ -16,8 +13,6 @@ using Terraria.Localization;
 using Terraria.Map;
 using Terraria.ModLoader;
 using Terraria.UI;
-using Terraria.UI.Gamepad;
-using tModPorter;
 
 namespace RemoteNPCHousing;
 public class MapHousingSystem : ModSystem
