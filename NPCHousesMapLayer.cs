@@ -49,11 +49,16 @@ public class NPCHousesMapLayer : ModMapLayer
 		}
 	}
 
+	internal readonly List<int> npcsWithBanners = [];
+	internal readonly List<int> occupantBanners = [];
+
 	// Re-implementation of Main.DrawNPCHousesInWorld()
 	public override void Draw(ref MapOverlayDrawContext context, ref string text)
 	{
-		List<int> npcsWithBanners = NpcsWithBanners().ToList();
-		List<int> occupantBanners = [];
+		npcsWithBanners.Clear();
+		occupantBanners.Clear();
+		npcsWithBanners.AddRange(NpcsWithBanners());
+
 		int bannerOnTop = -1;
 
 		npcsWithBanners.Sort((a, b) => -Main.npc[a].housingCategory.CompareTo(Main.npc[b].housingCategory));
