@@ -52,11 +52,9 @@ public class NPCHousesMapLayer : ModMapLayer
 	// Re-implementation of Main.DrawNPCHousesInWorld()
 	public override void Draw(ref MapOverlayDrawContext context, ref string text)
 	{
-		// not needed uses Hide() instead
-		// if (!ShouldDraw()) return;
-
 		List<int> npcsWithBanners = NpcsWithBanners().ToList();
 		List<int> occupantBanners = [];
+		int bannerOnTop = -1;
 
 		npcsWithBanners.Sort((a, b) => -Main.npc[a].housingCategory.CompareTo(Main.npc[b].housingCategory));
 		for (int i = 0; i < npcsWithBanners.Count; ++i)
@@ -170,17 +168,20 @@ public class NPCHousesMapLayer : ModMapLayer
 					string bannerText = Lang.GetNPCHouseBannerText(npc, bannerStyle);
 					text = bannerText;
 				}
-				if (Main.mouseRightRelease && Main.mouseRight && Config.AllowClickActions)
-				{
-					// since this is called before PostDrawFullscreenMap() resetting this will
-					// prevent clearing the housing query AND the current housing banner at the same time
-					// which is the normal behavior.
-					// It also prevents clearing multiple overlapping banners at the same time (although they get cleared in reverse order. TODO: Fix at some point)
-					Main.mouseRightRelease = false;
-					WorldGen.kickOut(npcsWithBanners[i]);
-					SoundEngine.PlaySound(SoundID.MenuTick);
-				}
+
+				bannerOnTop = npcsWithBanners[i];
 			}
+		}
+
+		// the click action should only happen on the banner that is on top
+		if (bannerOnTop != -1 && Main.mouseRightRelease && Main.mouseRight && Config!.AllowClickActions)
+		{
+			// since this is called before PostDrawFullscreenMap() resetting this will
+			// prevent clearing the housing query AND the current housing banner at the same time
+			// which is the normal behavior.
+			Main.mouseRightRelease = false;
+			WorldGen.kickOut(bannerOnTop);
+			SoundEngine.PlaySound(SoundID.MenuTick);
 		}
 	}
 
