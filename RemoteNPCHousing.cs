@@ -25,18 +25,6 @@ namespace RemoteNPCHousing
 		public override void Load()
 		{
 			IL_Main.DoDraw += IL_Main_DoDraw;
-			On_WorldGen.CheckRoom += On_WorldGen_CheckRoom;
-		}
-
-		// TODO: is this needed anymode?
-		private void On_WorldGen_CheckRoom(On_WorldGen.orig_CheckRoom orig, int x, int y)
-		{
-			// Main.sectionManager does not exist on the server
-			if (Main.netMode == NetmodeID.MultiplayerClient && !Main.sectionManager.TileLoaded(x, y))
-			{
-				NetworkHandler.SendToServer(MapSectionPacket.FromTile(x, y), Main.LocalPlayer.whoAmI);
-			}
-			orig(x, y);
 		}
 
 		public override void HandlePacket(BinaryReader reader, int whoAmI)
