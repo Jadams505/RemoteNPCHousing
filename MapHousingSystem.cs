@@ -12,6 +12,7 @@ using Terraria.Audio;
 using Terraria.GameContent;
 using Terraria.GameInput;
 using Terraria.ID;
+using Terraria.Localization;
 using Terraria.Map;
 using Terraria.ModLoader;
 using Terraria.UI;
@@ -201,6 +202,20 @@ public class MapHousingSystem : ModSystem
 			if (tilePos.X < 0 || tilePos.X >= Main.maxTilesX) return;
 			if (tilePos.Y < 0 || tilePos.Y >= Main.maxTilesY) return;
 
+			if (!Main.Map.IsRevealed(tilePos.X, tilePos.Y))
+			{
+				string text = Language.GetTextValue("Mods.RemoteNPCHousing.HousingMessages.NotRevealed");
+				Main.NewText(text, byte.MaxValue, 240, 20);
+				return;
+			}
+
+			if (!Main.sectionManager.TileLoaded(tilePos.X, tilePos.Y) && !ServerConfig.Instance.LoadQueriedChunks)
+			{
+				string text = Language.GetTextValue("Mods.RemoteNPCHousing.HousingMessages.NotLoaded");
+				Main.NewText(text, byte.MaxValue, 240, 20);
+				return;
+			}
+
 			HousingQuery query = new(tilePos.X, tilePos.Y, Main.instance.mouseNPCType, Main.instance.mouseNPCIndex);
 			query.Start();
 
@@ -217,21 +232,6 @@ public class MapHousingSystem : ModSystem
 
 	public static void SendHousingQuery(HousingQuery query)
 	{
-		if (!Main.Map.IsRevealed(query.X, query.Y))
-		{
-			string text = "This tile is not revealed!";
-			Main.NewText(text, byte.MaxValue, 240, 20);
-			return;
-		}
-
-		if (!Main.sectionManager.TileLoaded(query.X, query.Y) && !ServerConfig.Instance.LoadQueriedChunks)
-		{
-			// TODO: localize
-			string text = "This tile is too far away and not loaded!";
-			Main.NewText(text, byte.MaxValue, 240, 20);
-			return;
-		}
-
 		Main.LocalPlayer.GetModPlayer<MapPlayer>().CurrentQuery = query;
 		query.SendToServer();
 	}

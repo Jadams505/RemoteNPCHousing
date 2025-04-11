@@ -284,3 +284,8 @@ Configs: {
 		}
 	}
 }
+
+HousingMessages: {
+	NotRevealed: This tile is not revealed!
+	NotLoaded: This tile is too far away and not loaded!
+}
