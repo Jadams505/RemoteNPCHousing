@@ -1,0 +1,45 @@
+Allows you to assign housing preferences, see housing banners, and query valid housing when using the world map.
+It also works in the minimap and overlay maps, but those are disabled by default.
+
+[h3] Client Config Options [/h3]
+[list]
+[*]Enable: Enables all mod features
+[*]Debug Mode: Sends debug chat messages. You probably don't want this.
+[*]Fullscreen/Mini/Overlay Map Options: Toggles visibility and behavior on each map type
+[/list]
+
+[h3] Banner Config Options [/h3]
+These are configurable for each map.
+[list]
+[*]Enable: Enables banner drawing
+[*]Display Option: Vanilla, Always Show, or Never Show
+[*]Banner Scale: Multiplier for banner size
+[*]Banner Tiles: Sets banner size based on a tile size
+[*]Allow Hover Text: Enables text when hovering banners
+[*]Allow Click Actions: Enables clicking on banners
+[/list]
+
+[h3] Housing Icon Options [/h3]
+These only apply in the fullscreen map.
+[list]
+[*]Display Option: Always Show or Never Show
+[*]Position Option: Vanilla or Custom
+[*]Lock Position: Locks icon movement
+[*]Scale: Multiplier for icon size
+[*]Allow Hover Text: Enables text when hovering the icon
+[/list]
+
+[h3] Housing Panel Options [/h3]
+These only apply in the fullscreen map.
+[list]
+[*]Display Option: Enabled, Disabled, Remember, Vanilla, Smart
+[*]Position Option: Vanilla, Mini Map Open/Closed, or Custom Offset
+[*]Vertical Offset: Controls vertical menu placement
+[/list]
+
+[h3] Server Config Options [/h3]
+These apply for everyone on the server.
+[list]
+[*]Load Queried Chunks: Loads chunks when doing queries to improve accuracy
+[*]Load NPC Home Chunks: Ensures NPC homes are always loaded for accurate banner placement
+[/list]

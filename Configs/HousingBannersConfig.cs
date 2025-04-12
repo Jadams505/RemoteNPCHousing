@@ -19,6 +19,9 @@ public enum BannerScaleOptions
 
 public class HousingBannersConfig
 {
+	[BackgroundColor(BG_Nest2_R, BG_Nest2_G, BG_Nest2_B)]
+	public bool Enable = true;
+
 	[DrawTicks]
 	[BackgroundColor(BG_Nest2_R, BG_Nest2_G, BG_Nest2_B)]
 	public BannerDisplayOptions DisplayOptions = BannerDisplayOptions.Vanilla;
@@ -63,7 +66,8 @@ public class HousingBannersConfig
 			   DisplayOptions == config.DisplayOptions &&
 			   BannerTiles == config.BannerTiles &&
 			   AllowHoverText == config.AllowHoverText &&
-			   AllowClickActions == config.AllowClickActions;
+			   AllowClickActions == config.AllowClickActions &&
+			   Enable == config.Enable;
 	}
 
 	public override int GetHashCode()

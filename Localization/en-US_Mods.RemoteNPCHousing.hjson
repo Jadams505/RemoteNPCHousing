@@ -26,7 +26,7 @@ Configs: {
 			Label: Debug Mode
 			Tooltip:
 				'''
-				This will print message in chat that are useful for fixing issues.
+				This will print messages in chat that are useful for fixing issues.
 				If you encounter any issues please enable this and report what is says. 
 				'''
 		}
@@ -64,7 +64,7 @@ Configs: {
 			Tooltip:
 				'''
 				A size multiplier for drawing the housing banners.
-				This makes the banners act more like traditional map icons"
+				This makes the banners act more like traditional map icons
 				'''
 		}
 
@@ -83,7 +83,7 @@ Configs: {
 		}
 
 		DisplayOptions: {
-			Label: Display Options
+			Label: Display Option
 			Tooltip: ""
 		}
 
@@ -95,6 +95,11 @@ Configs: {
 		AllowClickActions: {
 			Label: Allow Click Actions
 			Tooltip: Whether or not you can click on the housing banners
+		}
+
+		Enable: {
+			Label: Enable
+			Tooltip: Whether or not to show banners for this map type
 		}
 	}
 

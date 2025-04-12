@@ -18,9 +18,6 @@ public class ClientConfig : ModConfig
 	[DefaultValue(true)]
 	public bool Enable;
 
-	[DefaultValue(false)]
-	public bool DebugMode;
-
 	[Expand(false)]
 	public FullscreenMapConfig FullscreenMapOptions = new();
 
@@ -29,6 +26,9 @@ public class ClientConfig : ModConfig
 
 	[Expand(false)]
 	public OverlayMapConfig OverlayMapOptions = new();
+
+	[DefaultValue(false)]
+	public bool DebugMode;
 
 	public HousingBannersConfig? GetRelevantConfig()
 	{

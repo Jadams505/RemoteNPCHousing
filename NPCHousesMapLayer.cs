@@ -19,6 +19,7 @@ public class NPCHousesMapLayer : ModMapLayer
 	{
 		if (Config is null) return false;
 		if (!ClientConfig.Instance.Enable) return false;
+		if (!Config.Enable) return false;
 		if (Config.DisplayOptions == BannerDisplayOptions.AlwaysShow) return true;
 		if (Config.DisplayOptions == BannerDisplayOptions.NeverShow) return false;
 

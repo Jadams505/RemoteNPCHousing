@@ -9,7 +9,7 @@ public class MiniMapConfig
 	[BackgroundColor(BG_Nest1_R, BG_Nest1_G, BG_Nest1_B)]
 	public HousingBannersConfig MiniMapBannersOptions = new()
 	{
-		DisplayOptions = BannerDisplayOptions.NeverShow, // disable in minimap by default
+		Enable = false, // disable in minimap by default
 	};
 
 	public override bool Equals(object? obj)
