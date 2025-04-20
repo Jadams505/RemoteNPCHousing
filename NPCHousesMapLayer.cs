@@ -13,7 +13,7 @@ using Terraria.UI;
 namespace RemoteNPCHousing;
 public class NPCHousesMapLayer : ModMapLayer
 {
-	public static HousingBannersConfig? Config => ClientConfig.Instance.GetRelevantConfig();
+	public static HousingBannersConfig Config => ClientConfig.Instance.GetRelevantConfig();
 
 	public static bool ShouldDraw()
 	{
@@ -53,6 +53,7 @@ public class NPCHousesMapLayer : ModMapLayer
 		occupantBanners.Clear();
 		npcsWithBanners.AddRange(NpcsWithBanners());
 
+		var config = Config;
 		int bannerOnTop = -1;
 
 		npcsWithBanners.Sort((a, b) => -Main.npc[a].housingCategory.CompareTo(Main.npc[b].housingCategory));
@@ -103,7 +104,7 @@ public class NPCHousesMapLayer : ModMapLayer
 
 			// used for ScaleToFit. This is how many map tiles the image should take up
 			// so that it can be scaled to fit these dimensions
-			int fitTiles = Config!.BannerTiles;
+			int fitTiles = config.BannerTiles;
 
 			Vector2 position = new()
 			{
@@ -120,7 +121,7 @@ public class NPCHousesMapLayer : ModMapLayer
 				position.Y = npc.homeTileY;
 			}
 
-			if (Config.ScaleOption == BannerScaleOptions.UseTileValues)
+			if (config.ScaleOption == BannerScaleOptions.UseTileValues)
 			{
 				position.Y += fitTiles / 4; // where did this 4 come from?
 				position.Y += roomateCount * 11.5f * fitTiles / 16f; // why 11.5?
@@ -162,7 +163,7 @@ public class NPCHousesMapLayer : ModMapLayer
 			// the banner is always bigger than the head so I don't have to handle both hovers
 			if (bannerResult.IsMouseOver)
 			{
-				if (Config.AllowHoverText)
+				if (config.AllowHoverText)
 				{
 					string bannerText = Lang.GetNPCHouseBannerText(npc, bannerStyle);
 					text = bannerText;
@@ -173,7 +174,7 @@ public class NPCHousesMapLayer : ModMapLayer
 		}
 
 		// the click action should only happen on the banner that is on top
-		if (bannerOnTop != -1 && Main.mouseRightRelease && Main.mouseRight && Config!.AllowClickActions)
+		if (bannerOnTop != -1 && Main.mouseRightRelease && Main.mouseRight && config.AllowClickActions)
 		{
 			// since this is called before PostDrawFullscreenMap() resetting this will
 			// prevent clearing the housing query AND the current housing banner at the same time
@@ -205,7 +206,7 @@ public class NPCHousesMapLayer : ModMapLayer
 
 		void DetermineScale(float scale, out float normalScale, out float hoverScale)
 		{
-			float hoverFactor = Config!.HoverScale; // hover scale is used for both. I may regret this.
+			float hoverFactor = Config.HoverScale; // hover scale is used for both. I may regret this.
 			normalScale = Config.ScaleOption switch
 			{
 				BannerScaleOptions.UseScaleValues => Config.BannerScale,

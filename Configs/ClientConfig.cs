@@ -30,11 +30,19 @@ public class ClientConfig : ModConfig
 	[DefaultValue(false)]
 	public bool DebugMode;
 
-	public HousingBannersConfig? GetRelevantConfig()
+	// When doing a pylon teleport from the fullscreen map, but having mapStyle == 0
+	// The fullscreen map is still being drawn, but Main.fullscreen is false
+	// This acts as a default config so that it is not null in these cases.
+	private readonly HousingBannersConfig DefaultBannerConfig = new()
+	{
+		Enable = false
+	};
+
+	public HousingBannersConfig GetRelevantConfig()
 	{
 		if (Main.mapFullscreen) return FullscreenMapOptions.FullscreenBannersOptions;
 		if (Main.mapStyle == 1) return MiniMapOptions.MiniMapBannersOptions;
 		if (Main.mapStyle == 2) return OverlayMapOptions.OverlayMapBannersOptions;
-		return null;
+		return DefaultBannerConfig;
 	}
 }
