@@ -1,6 +1,6 @@
 displayName = World Map Housing
 author = Jadams
-version = 1.0.0
+version = 1.0.1
 homepage = https://github.com/Jadams505/RemoteNPCHousing
 side = Both
 buildIgnore = *.xcf

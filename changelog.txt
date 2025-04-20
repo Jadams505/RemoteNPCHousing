@@ -2,4 +2,4 @@
 World Map Housing v{ModVersion} has been published to {tMLBuildPurpose} tML v{tMLVersion}.
 Learn more at the [url={ModHomepage}]homepage[/url]
 
-- Initial Release
+- Fixed crash when using pylons to teleport
