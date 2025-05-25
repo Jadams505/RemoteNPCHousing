@@ -15,6 +15,11 @@ public class NPCHousesMapLayer : ModMapLayer
 {
 	public static HousingBannersConfig Config => ClientConfig.Instance.GetRelevantConfig();
 
+	public override Position GetDefaultPosition()
+	{
+		return new Before(IMapLayer.Pings);
+	}
+
 	public static bool ShouldDraw()
 	{
 		if (Config is null) return false;

@@ -135,11 +135,6 @@ public class MapHousingSystem : ModSystem
 		}
 	}
 
-	public override void PostDrawFullscreenMap(ref string mouseText)
-	{
-		Draw(ref mouseText);
-	}
-
 	[UnsafeAccessor(UnsafeAccessorKind.Method, Name = "DrawNPCHousesInUI")]
 	internal static extern void Main_DrawNPCHousesInUI(Main self);
 

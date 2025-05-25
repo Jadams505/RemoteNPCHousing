@@ -1,6 +1,8 @@
 Allows you to assign housing preferences, see housing banners, and query valid housing when using the world map.
 It also works in the minimap and overlay maps, but those are disabled by default.
 
+GitHub: https://github.com/Jadams505/RemoteNPCHousing
+
 [h3] Client Config Options [/h3]
 [list]
 [*]Enable: Enables all mod features
