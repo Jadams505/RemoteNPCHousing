@@ -34,6 +34,8 @@ public class UIHousingIcon : UIElement
 		// all input gets disabled for some reason
 		OnLeftClick += (@event, element) =>
 		{
+			if (!Enabled) return;
+
 			IsOpen = !IsOpen;
 		};
 	}

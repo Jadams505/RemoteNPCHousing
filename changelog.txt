@@ -2,4 +2,4 @@
 World Map Housing v{ModVersion} has been published to {tMLBuildPurpose} tML v{tMLVersion}.
 Learn more at the [url={ModHomepage}]homepage[/url]
 
-- NPC banners no longer cover Pings
+- Fixed an issue where the housing icon could be toggled despite being disabled
