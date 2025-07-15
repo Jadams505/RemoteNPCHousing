@@ -11,7 +11,9 @@ public class NPCPanelMapLayer : ModMapLayer
 
 	public override void Draw(ref MapOverlayDrawContext context, ref string text)
 	{
+		// If I draw it here I have to account for UIScale or restart the spritebatch
 		// TODO: move MapHousingSystem into this layer
-		MapHousingSystem.Instance.Draw(ref text);
+		// TODO: figure out how to make this work
+		//MapHousingSystem.Instance.Draw(ref text);
 	}
 }
