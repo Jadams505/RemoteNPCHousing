@@ -149,7 +149,11 @@ public class NPCHousesMapLayer : ModMapLayer
 				alignment: Alignment.Center
 			);
 
+			// Despite having safe in the name GetHeadIndexSafe can still return -1, so I use the question mark head if that happens
+			// This has caused crashes with the Path of Terraria mod
 			int headIndex = TownNPCProfiles.GetHeadIndexSafe(npc);
+			if (headIndex <= -1 || headIndex >= TextureAssets.NpcHead.Length) headIndex = NPCHeadID.HousingQuery;
+
 			var headTexture = TextureAssets.NpcHead[headIndex].Value;
 			var headFrame = new SpriteFrame(1, 1);
 			float headMaxDim = Math.Max(headTexture.Width, headTexture.Height);
