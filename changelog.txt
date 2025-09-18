@@ -2,4 +2,4 @@
 World Map Housing v{ModVersion} has been published to {tMLBuildPurpose} tML v{tMLVersion}.
 Learn more at the [url={ModHomepage}]homepage[/url]
 
-- Fixed a game crash caused by invalid npc heads
+- Fixed a game crash when having over 99 NPCs in the housing UI

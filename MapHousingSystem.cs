@@ -13,6 +13,7 @@ using Terraria.Localization;
 using Terraria.Map;
 using Terraria.ModLoader;
 using Terraria.UI;
+using Terraria.UI.Gamepad;
 
 namespace RemoteNPCHousing;
 public class MapHousingSystem : ModSystem
@@ -108,8 +109,12 @@ public class MapHousingSystem : ModSystem
 				// this is normally set by DrawInventory()
 				// ss far as I know it is always 0.85f when calling DrawNPCHousesInUI() 
 				// TODO: configure
-				Main.inventoryScale = 0.85f; 
+				Main.inventoryScale = 0.85f;
+				// A super lazy hack to prevent DrawNPCHousesInUI() from throwing an exception and crashing
+				// caused by over 99 town NPC in the UI (tModLoader issue)
+				bool addHack = UILinkPointNavigator.Points.TryAdd(699, new UILinkPoint(699, false, -4, -4, -4, -4));
 				Main_DrawNPCHousesInUI(Main.instance);
+				if (addHack) UILinkPointNavigator.Points.Remove(699);
 				Main_mH(Main.instance) = oldValue;
 
 				HandleMouseNPC(Main.instance);
