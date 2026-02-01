@@ -2,4 +2,5 @@
 World Map Housing v{ModVersion} has been published to {tMLBuildPurpose} tML v{tMLVersion}.
 Learn more at the [url={ModHomepage}]homepage[/url]
 
-- Fixed a game crash when having over 99 NPCs in the housing UI
+- Fixed a bug where the the housing icon could be open more often than it should.
+- Changed the default display option in the fullscreen map from Smart to Disabled.

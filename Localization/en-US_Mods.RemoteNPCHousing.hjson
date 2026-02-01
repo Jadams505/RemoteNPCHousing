@@ -109,8 +109,16 @@ Configs: {
 			Use Scale Values: Uses 'Banner Scale' to configure the size for drawing banners
 			Use Tile Values: Uses 'Banner Tiles' to configure the size for drawing banners
 			'''
-		UseScaleValues.Label: Use Scale Values
-		UseTileValues.Label: Use Tile Values
+
+		UseScaleValues: {
+			Label: Use Scale Values
+			Tooltip: Uses 'Banner Scale' to configure the size for drawing banners
+		}
+
+		UseTileValues: {
+			Label: Use Tile Values
+			Tooltip: Uses 'Banner Tiles' to configure the size for drawing banners
+		}
 	}
 
 	BannerDisplayOptions: {
@@ -120,9 +128,21 @@ Configs: {
 			Always Show: The banners will always display
 			Never Show: The banners will never display
 			'''
-		Vanilla.Label: Vanilla
-		AlwaysShow.Label: Always Show
-		NeverShow.Label: Never Show
+
+		Vanilla: {
+			Label: Vanilla
+			Tooltip: The banners will display if the housing panel is open
+		}
+
+		AlwaysShow: {
+			Label: Always Show
+			Tooltip: The banners will always display
+		}
+
+		NeverShow: {
+			Label: Never Show
+			Tooltip: The banners will never display
+		}
 	}
 
 	HousingIconConfig: {
@@ -186,14 +206,30 @@ Configs: {
 
 	IconDisplayOptions: {
 		Tooltip: ""
-		AlwaysShow.Label: Always Show
-		NeverShow.Label: Never Show
+
+		AlwaysShow: {
+			Label: Always Show
+			Tooltip: ""
+		}
+
+		NeverShow: {
+			Label: Never Show
+			Tooltip: ""
+		}
 	}
 
 	IconPositionOptions: {
 		Tooltip: ""
-		Vanilla.Label: Vanilla
-		Custom.Label: Custom
+
+		Vanilla: {
+			Label: Vanilla
+			Tooltip: ""
+		}
+
+		Custom: {
+			Label: Custom
+			Tooltip: ""
+		}
 	}
 
 	HousingPanelConfig: {
@@ -225,13 +261,33 @@ Configs: {
 			Enabled/Disabled: Always/Never show the housing panel
 			Remember: Remember the last state the panel was in and reopen it in that state
 			Vanilla: Open the housing panel to the same state it was in the inventory
-			Smart: Same as Remember, but will enable itself if it was open in the inventory [Default]
+			Smart: Same as Remember, but will enable itself if it was open in the inventory
 			'''
-		Enabled.Label: Enabled
-		Disabled.Label: Disabled
-		Remember.Label: Remember
-		Vanilla.Label: Vanilla
-		Smart.Label: Smart
+
+		Enabled: {
+			Label: Enabled
+			Tooltip: Always initially open the housing panel
+		}
+
+		Disabled: {
+			Label: Disabled
+			Tooltip: Never initially open the housing panel [Default]
+		}
+
+		Remember: {
+			Label: Remember
+			Tooltip: Remember the last state the panel was in and reopen it in that state
+		}
+
+		Vanilla: {
+			Label: Vanilla
+			Tooltip: Open the housing panel to the same state it was in the inventory
+		}
+
+		Smart: {
+			Label: Smart
+			Tooltip: Same as Remember, but will enable itself if it was open in the inventory
+		}
 	}
 
 	PanelPositionOptions: {
@@ -242,10 +298,26 @@ Configs: {
 			Mini Map Closed: The housing panel will appear in the same place as if the mini-map were closed
 			Custom Offset: The housing panel will appear based on the vertical offset below
 			'''
-		Vanilla.Label: Vanilla
-		MiniMapOpen.Label: Mini Map Open
-		MiniMapClosed.Label: Mini Map Closed
-		CustomOffset.Label: Custom Offset
+
+		Vanilla: {
+			Label: Vanilla
+			Tooltip: The housing panel will appear in the same place as if opened in the inventory
+		}
+
+		MiniMapOpen: {
+			Label: Mini Map Open
+			Tooltip: The housing panel will appear in the same place as if the mini-map were open
+		}
+
+		MiniMapClosed: {
+			Label: Mini Map Closed
+			Tooltip: ""
+		}
+
+		CustomOffset: {
+			Label: Custom Offset
+			Tooltip: The housing panel will appear based on the vertical offset below
+		}
 	}
 
 	MiniMapConfig: {

@@ -22,9 +22,11 @@ public enum PanelDisplayOptions // state when map is opened
 
 public class HousingPanelConfig
 {
+	// v1.0.7 changed the default from Smart to Disabled as housing is more of a opt in
+	// action. This actually mimics vanilla more as closing the inventory disables housing, so too should closing the map.
 	[DrawTicks]
 	[BackgroundColor(BG_Nest2_R, BG_Nest2_G, BG_Nest2_B)]
-	public PanelDisplayOptions DisplayOption = PanelDisplayOptions.Smart;
+	public PanelDisplayOptions DisplayOption = PanelDisplayOptions.Disabled;
 
 	[DrawTicks]
 	[BackgroundColor(BG_Nest2_R, BG_Nest2_G, BG_Nest2_B)]

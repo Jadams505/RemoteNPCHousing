@@ -14,7 +14,7 @@ public class UIConfiguredHousingIcon : UIHousingIcon
 		{
 			IconDisplayOptions.AlwaysShow => true,
 			IconDisplayOptions.NeverShow => false,
-			_ => Enabled,
+			_ => IsOpen,
 		};
 	}
 
